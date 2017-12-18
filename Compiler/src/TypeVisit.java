@@ -6,7 +6,7 @@ public class TypeVisit implements ObjVisitor<Type> {
 		// TODO Auto-generated method stub
 		if (e.accept(this).getClass()==TUnit.class)
 		{
-			return ;
+			return  hello;
 		}
             return;
 	}
