@@ -1,6 +1,6 @@
 
-public class TypeVisit implements ObjVisitor<Type> {
-
+//public class TypeVisit implements ObjVisitor<Type> {
+/*
 	@Override
 	public Type visit(Unit e) {
 		// TODO Auto-generated method stub
@@ -193,6 +193,8 @@ public class TypeVisit implements ObjVisitor<Type> {
 		return null;
 	}
 
+
+
 	@Override
 	public Type visit(Get e) {
 		// TODO Auto-generated method stub
@@ -204,5 +206,5 @@ public class TypeVisit implements ObjVisitor<Type> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-}
+*/
+//}
