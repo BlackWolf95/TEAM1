@@ -24,6 +24,8 @@ public class Asml {
         this.exp = exp;
         this.function = function;
     }      
+    
+    
 
     public String PrintAsml() {
     	String program;
