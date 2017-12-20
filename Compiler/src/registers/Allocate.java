@@ -1,4 +1,5 @@
 package registers;
+import Instructions.*;
 
 import java.util.*;
 
@@ -7,8 +8,8 @@ import Expression.*;
 
 public class Allocate {	
 	
-	public List<Var> locals = new ArrayList<>();	
-	public Allocate(List<Var> locals)
+	public List<Variable> locals = new ArrayList<>();	
+	public Allocate(List<Variable> locals)
 	{
 		this.locals = locals;
 	}
