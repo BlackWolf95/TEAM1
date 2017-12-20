@@ -14,6 +14,8 @@ public class Reg_assign {
 	private int INT_MIN = -32767; 
 	//public List<FunDef> function = new ArrayList<>();
 	public List<Variable> local = new ArrayList<>();
+	public ArrayList<String> regname=new ArrayList<String>();
+	
 	int n = local.size();
 	String[] regLocal = new String[7];
 	String[] regParam = new String[4];
@@ -23,11 +25,28 @@ public class Reg_assign {
 		this.local = local;
 		//this.function = function;
 	}
+	
+	//we would call assignLocal() from call_Local()
+	
+	public void  call_Local() {
+		int i;
+		for(i=0;i<n;i++) {
+			String s=assignLocal(i);
+			regname.add(s);
+		}
+			
+		
+		
+	}
 
-	public void assignLocal() {		
+	public String assignLocal(int i1) {	
+		String element;
 		//create register in the form of string arrays
 		int i=getRegsLocal();
-		regLocal[i]= local.get(i).toString();
+		regLocal[i]= local.get(i1).toString();
+		element="reg["+i+"]";
+		//now we replace the local variable by the name of its corresponding register
+		return element;
 		
 	}
 	
@@ -61,3 +80,14 @@ public class Reg_assign {
 	}
 	*/
 }
+
+	
+	
+
+
+
+
+
+
+
+
