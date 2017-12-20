@@ -1,5 +1,11 @@
 
 import java.io.*;
+import Expression.*;
+
+import K_Nor.KNor;
+import Visiteur.*;
+//import Parser.*;
+import Heights.*;
 
 public class PrintInMain {
 	
@@ -17,6 +23,8 @@ public class PrintInMain {
 		      System.out.println("------ Height of the AST ----");
 		      int height = Height.computeHeight(expression);
 		      System.out.println("using Height.computeHeight: " + height);
+		      
+		     // expression.accept(new KNor());
 
 		      ObjVisitor<Integer> v = new HeightVisitor();
 		      height = expression.accept(v);

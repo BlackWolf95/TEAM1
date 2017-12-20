@@ -1,6 +1,9 @@
+package Visiteur;
 import java.util.*;
+import Expression.*;
+import Expression.Float;
 
-class PrintVisitor implements Visitor {
+public class PrintVisitor implements Visitor {
     public void visit(Unit e) {
         System.out.print("()");
     }
