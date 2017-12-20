@@ -1,4 +1,5 @@
 package ASML;
+import Instructions.*;
 import Visiteur.ObjVisitor;
 import Visiteur.Visitor;
 import Expression.*;
@@ -11,7 +12,7 @@ import java.util.*;
 public class Asml {
 
 	//list of local variables of the function
-    public List<Var> local = new ArrayList<>();
+    public List<Variable> local = new ArrayList<>();
     
     //list of expressions to be assigned to variables
     public List<Exp> exp = new ArrayList<>();
@@ -19,13 +20,13 @@ public class Asml {
     //list of functions to be called
     public List<FunDef> function = new ArrayList<>();
     
-    public Asml(List<Var> local, List<Exp> exp, List<FunDef> function){
+    public Asml(List<Variable> local, List<Exp> exp, List<FunDef> function){
         this.local = local;
         this.exp = exp;
         this.function = function;
     }      
     
-    public List<Var> getVariables(){
+    public List<Variable> getVariables(){
     	return local;    	
     }
 

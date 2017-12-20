@@ -1,4 +1,5 @@
 package registers;
+import Instructions.*;
 import Visiteur.ObjVisitor;
 import Visiteur.Visitor;
 import Expression.*;
@@ -12,13 +13,13 @@ public class Reg_assign {
 	//list of local variables of the function
 	private int INT_MIN = -32767; 
 	//public List<FunDef> function = new ArrayList<>();
-	public List<Var> local = new ArrayList<>();
+	public List<Variable> local = new ArrayList<>();
 	int n = local.size();
 	String[] regLocal = new String[7];
 	String[] regParam = new String[4];
 	
 
-	public Reg_assign(List<Var> local) {
+	public Reg_assign(List<Variable> local) {
 		this.local = local;
 		//this.function = function;
 	}
