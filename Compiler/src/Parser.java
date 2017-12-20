@@ -4,8 +4,13 @@
 //----------------------------------------------------
 
 import java_cup.runtime.*;
+import Expression.*;
 import java.util.*;
 import java_cup.runtime.XMLElement;
+import Expression.Float;
+import Tool.Id;
+import Types.TUnit;
+import Types.Type;
 
 /** CUP v0.11b 20140808 (SVN rev 54) generated parser.
   */
