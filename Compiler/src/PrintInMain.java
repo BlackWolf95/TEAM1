@@ -1,6 +1,9 @@
 
 import java.io.*;
 
+import K_Nor.KNor;
+
+
 public class PrintInMain {
 	
 	public static void PrintAST(String path)
@@ -12,7 +15,12 @@ public class PrintInMain {
 
 		      System.out.println("------ AST ------");
 		      expression.accept(new PrintVisitor());
-		      System.out.println();						
+		      System.out.println();				
+		      
+		      System.out.println("123");
+//		      ObjVisitor<Exp> r = (ObjVisitor<Exp>) new KNor();
+//		      Exp expKnor = expression.accept(r);
+		      
 
 		      System.out.println("------ Height of the AST ----");
 		      int height = Height.computeHeight(expression);

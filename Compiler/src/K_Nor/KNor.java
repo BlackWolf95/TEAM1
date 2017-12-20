@@ -38,7 +38,7 @@ import Types.TFloat;
 import Types.TFun;
 import Types.TInt;
 import Types.Type;
-import Visiteur.ObjVisitor;
+import Visiteur.*;
 import Visiteur.Visitor;
 
 public class KNor implements ObjVisitor<Exp> {
