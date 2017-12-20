@@ -18,7 +18,7 @@ public class Reg_assign {
 	String[] regParam = new String[4];
 	
 
-	public Reg_assign(List<Var> local, List<FunDef> function) {
+	public Reg_assign(List<Var> local) {
 		this.local = local;
 		//this.function = function;
 	}
@@ -26,7 +26,9 @@ public class Reg_assign {
 	public void assignLocal() {		
 		//create register in the form of string arrays
 		int i=getRegsLocal();
-		regLocal[i]= local.get(i).toString();	}
+		regLocal[i]= local.get(i).toString();
+		
+	}
 	
 	public int getRegsLocal() {
 		int i1=INT_MIN;
@@ -39,6 +41,7 @@ public class Reg_assign {
 		return i1; 
 	}
 	
+	/*
 	public void assignParam() {		
 		//create register in the form of string arrays
 		//int i=getRegsParam();
@@ -55,5 +58,5 @@ public class Reg_assign {
 		}
 		return i1; 
 	}
-
+	*/
 }

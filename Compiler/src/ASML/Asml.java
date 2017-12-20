@@ -25,7 +25,9 @@ public class Asml {
         this.function = function;
     }      
     
-    
+    public List<Var> getVariables(){
+    	return local;    	
+    }
 
     public String PrintAsml() {
     	String program;
