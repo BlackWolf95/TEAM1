@@ -5,7 +5,7 @@ import Visiteur.ObjVisitor;
 import Visiteur.Visitor;
 
 public class Var extends Exp {
-    public final Id id;
+    public Id id;
 
     public Var(Id id) {
         this.id = id;
