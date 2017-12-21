@@ -1,8 +1,11 @@
 
 import java.io.*;
+
+import Alpha_conversion.Alpha_con;
 import Expression.*;
 
 import K_Nor.KNor;
+import Reduction_nested.Reduction_N;
 import Visiteur.*;
 //import Parser.*;
 import Heights.*;
@@ -24,7 +27,22 @@ public class PrintInMain {
 		      int height = Height.computeHeight(expression);
 		      System.out.println("using Height.computeHeight: " + height);
 		      
-		     // expression.accept(new KNor());
+		     
+		      System.out.println("------ K-norm ----");
+		      Exp expressK = expression.accept(new KNor());
+     	      expressK.accept(new PrintVisitor());
+     	      System.out.println();
+		      
+		      System.out.println("------ Alpha ----"); 
+		      Exp expressA = expressK.accept(new Alpha_con());
+		      expressA.accept(new PrintVisitor());
+		      System.out.println();
+     	      
+	     	  System.out.println("------ Reduction ----"); 
+			  Exp expressR = expressA.accept(new Reduction_N() );
+			  expressR.accept(new PrintVisitor());
+			  System.out.println();
+			      
 
 		      ObjVisitor<Integer> v = new HeightVisitor();
 		      height = expression.accept(v);

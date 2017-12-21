@@ -6,7 +6,7 @@ import Visiteur.ObjVisitor;
 import Visiteur.Visitor;
 
 public class Let extends Exp {
-    public final Id id;
+    public Id id;
     public final Type t;
     public final Exp e1;
     public final Exp e2;

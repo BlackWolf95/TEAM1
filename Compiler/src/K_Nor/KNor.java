@@ -225,8 +225,8 @@ public class KNor implements ObjVisitor<Exp> {
 		// TODO Auto-generated method stub
 		Exp e1=e.e.accept(this);
 		List<Exp> list=new ArrayList<Exp>();
-		for(int i=0;i<=list.size();i++){
-			list.add(e);
+		for(int i=0;i<list.size();i++){
+			list.add(e.es.get(i));
 		}
 		return new App(e1, list);
 	}
@@ -235,8 +235,8 @@ public class KNor implements ObjVisitor<Exp> {
 	public Exp visit(Tuple e) {
 		// TODO Auto-generated method stub
 		List<Exp> list=new ArrayList<>();
-		for(int i=0;i<=list.size();i++){
-			list.add(e);
+		for(int i=0;i<list.size();i++){
+			list.add(e.es.get(i));
 		}
 		return new Tuple(list);
 	}
@@ -245,7 +245,7 @@ public class KNor implements ObjVisitor<Exp> {
 	public Exp visit(LetTuple e) {
 		// TODO Auto-generated method stub
 		List<Id> listId=new ArrayList<Id>();
-		for(int i=0;i<=listId.size();i++){
+		for(int i=0;i<listId.size();i++){
 			listId.add(e.ids.get(i));
 		}
 		
