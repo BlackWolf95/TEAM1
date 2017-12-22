@@ -14,6 +14,8 @@ public class Reg_assign {
 	public static int INT_MIN = -32767; 
 	//public List<FunDef> function = new ArrayList<>();
 	public List<Variable> local = new ArrayList<>();
+	public ArrayList<String> regname=new ArrayList<String>();
+	
 	int n = local.size();
 	static String[] regLocal = new String[7];
 	static String[] regParam = new String[4];
@@ -22,6 +24,19 @@ public class Reg_assign {
 	public Reg_assign(List<Variable> local) {
 		this.local = local;
 		//this.function = function;
+	}
+	
+	//we would call assignLocal() from call_Local()
+	
+	public void  call_Local() {
+		int i;
+		for(i=0;i<n;i++) {
+			String s=assignLocal(i);
+			regname.add(s);
+		}
+			
+		
+		
 	}
 
 	
@@ -55,3 +70,14 @@ public class Reg_assign {
 	}
 	*/
 }
+
+	
+	
+
+
+
+
+
+
+
+

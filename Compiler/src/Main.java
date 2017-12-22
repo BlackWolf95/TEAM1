@@ -1,13 +1,19 @@
-import java_cup.runtime.*;
+//import java_cup.runtime.*;
 import java.io.*;
-import java.util.*;
-import java.io.FileNotFoundException;
-import java.io.File;
+//import java.util.*;
+
+import K_Nor.KNor;
+import Expression.*;
+import Visiteur.*;
+//import Parser.*;
+import Heights.*;
 
 
 public class Main {
 	
   static public void main(String argv[]) { 
+	  
+	
 	  int n = argv.length;
 	  if (n == 0)
 	  {
@@ -55,6 +61,7 @@ public class Main {
 	  		}
 		  
 	  }
+	  
 	   
   }
 }
