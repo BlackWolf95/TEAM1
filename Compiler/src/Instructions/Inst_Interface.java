@@ -8,7 +8,8 @@ public interface Inst_Interface {
 		Label,
 		Jump,
 		Assign,
-		Return
+		Return,
+		Call
 	}
 	
 	inst_type Get_Inst_type();
