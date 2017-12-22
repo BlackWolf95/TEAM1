@@ -1,11 +1,10 @@
 
 import java.io.*;
 
-import ASML.AM_Exp;
-import ASML.AM_Print_Visitor;
-import ASML.AM_TransVisitor;
-import ASML_STRUCTURE.Asml;
-import ASML_STRUCTURE.Asml_Str;
+import ASML.Asml;
+import ASML_Code_Generation.AM_Exp;
+import ASML_Code_Generation.AM_Print_Visitor;
+import ASML_Code_Generation.AM_TransVisitor;
 import Alpha_conversion.Alpha_con;
 import Expression.*;
 
