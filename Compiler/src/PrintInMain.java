@@ -1,6 +1,11 @@
 
 import java.io.*;
 
+import ASML.AM_Exp;
+import ASML.AM_Print_Visitor;
+import ASML.AM_TransVisitor;
+import ASML_STRUCTURE.Asml;
+import ASML_STRUCTURE.Asml_Str;
 import Alpha_conversion.Alpha_con;
 import Expression.*;
 
@@ -42,8 +47,12 @@ public class PrintInMain {
 			  Exp expressR = expressA.accept(new Reduction_N() );
 			  expressR.accept(new PrintVisitor());
 			  System.out.println();
-			      
-
+			  
+			  System.out.println("------ ASML ----"); 
+			  AM_Exp expressAM = expressR.accept(new AM_TransVisitor() );
+			  expressAM.accept(new AM_Print_Visitor());
+			  System.out.println();
+			  		 		   
 		      ObjVisitor<Integer> v = new HeightVisitor();
 		      height = expression.accept(v);
 		      System.out.println("using HeightVisitor: " + height);
