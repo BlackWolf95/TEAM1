@@ -3,7 +3,7 @@ import Instructions.*;
 
 import java.util.*;
 
-import ASML.*;
+import ASML_STRUCTURE.*;
 import Expression.*;
 
 public class Allocate {	
