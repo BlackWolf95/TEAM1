@@ -19,7 +19,6 @@ public class ARMgenerator {
 
 
     static {
-        IMPORTS.put("print_newline", "min_caml_print_newline");
         IMPORTS.put("print_int", "min_caml_print_int");
 
     }
@@ -239,16 +238,6 @@ public class ARMgenerator {
 
             return;
         }
-
-        if (name.equals("min_caml_print_newline")) {
-            ARMBuffer.append("\n\tBL min_caml_print_newline");
-
-            if(cl.retval != null){
-                Assignment(cl.retval, "r11");
-            }
-            return;
-        }
-
 
         if(cl.retval != null){
             Assignment(cl.retval, "r11");
