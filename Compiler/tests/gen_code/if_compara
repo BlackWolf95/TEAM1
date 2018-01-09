@@ -1,0 +1,6 @@
+let x = 5 in 
+let y = 4 in 
+if (x < y) then
+		print_int x
+else
+		print_int y
