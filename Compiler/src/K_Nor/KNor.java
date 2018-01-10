@@ -61,6 +61,7 @@ public class KNor implements ObjVisitor<Exp> {
 		// TODO Auto-generated method stub
 		Exp bool= new Bool(e.b);
 		return bool;
+		
 	}
 
 	@Override
