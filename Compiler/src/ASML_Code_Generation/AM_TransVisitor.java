@@ -1,5 +1,9 @@
 package ASML_Code_Generation;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import Expression.Add;
 import Expression.App;
 import Expression.Array;
@@ -28,6 +32,7 @@ import Expression.Unit;
 import Expression.Var;
 import Tool.Id;
 import Visiteur.ObjVisitor;
+import Visiteur.PrintVisitor;
 
 public class AM_TransVisitor implements ObjVisitor<AM_Exp>{
 
@@ -47,7 +52,10 @@ public class AM_TransVisitor implements ObjVisitor<AM_Exp>{
 //			return new A_Eq(a_i1, a_i2);
 //			
 //		}
-		return null;
+		if(e.b==true){
+			return new A_Int(1);
+		}
+		return new A_Int(0);
 	}
 
 	@Override
@@ -164,21 +172,25 @@ public class AM_TransVisitor implements ObjVisitor<AM_Exp>{
 		return new A_Var(e.id);
 	}
 
+	
 	@Override
 	public AM_Exp visit(LetRec e) {
 		// TODO Auto-generated method stub
-		//AM_Exp a_i=e.fd.id;
-		//e.fd.type;
-//		A_formal_args a_for=(A_formal_args) e.fd.args;
-//		AM_Exp am_e1=(AM_Exp)e.fd.e.accept(this);
-//		AM_Exp am_e2=(AM_Exp)e.e.accept(this);
-		return null;
+		Asml_Fundef asml_fun=new Asml_Fundef(e.fd.id, e.fd.type, e.fd.args, e.e.accept(this));
+		A_LetRec a_letRec=new A_LetRec(asml_fun, e.e.accept(this));
+	    System.out.println(e.fd.id);
+		return a_letRec;
 	}
 
 	@Override
 	public AM_Exp visit(App e) {
 		// TODO Auto-generated method stub
-		return null;
+		AM_Exp a_e=e.e.accept(this);
+		List<AM_Exp> a_es=new ArrayList<>();
+		for(int i=0;i<a_es.size();i++){
+		a_es.add((AM_Exp)e.es.get(i).accept(this));
+		}
+		return new A_App(a_e,a_es);
 	}
 
 	@Override
