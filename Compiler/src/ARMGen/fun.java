@@ -18,4 +18,12 @@ public class fun {
 		this.instruc = Collections.unmodifiableList(instruc);
 		
 	}
+	
+	public fun(Label lb, List<Variable> local, List<Inst_Interface> instruc){
+		
+		this.lb = lb;
+		this.local = Collections.unmodifiableList(local);
+		this.instruc = Collections.unmodifiableList(instruc);
+		
+	}
 }

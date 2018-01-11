@@ -3,6 +3,7 @@ import Instructions.*;
 import registers.Reg_assign;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,7 @@ public class ARMgenerator {
 
 
     private static Map<String, String> IMPORTS = new LinkedHashMap<>();
-    private String[] register;
+    private String[] register = new String[13];
     private int reg_no;
 
     private String return_word = "ret"; 
@@ -20,7 +21,6 @@ public class ARMgenerator {
 
     static {
         IMPORTS.put("print_int", "min_caml_print_int");
-
     }
 
 
@@ -28,17 +28,73 @@ public class ARMgenerator {
 		ARMBuffer.append("\t.text \n\t.global _start \n_main:");
     }
 
-    public void armgen(List<fun> func) { 
+   // public void armgen(List<fun> func) {
+    
+    private List<fun> funPopulate()
+    {
+    	List<fun> function = new ArrayList<fun>();
+    	Variable var = new Variable("x");
+    	Variable var1 = new Variable("x1");
+    	Variable var2 = new Variable("x2");
+    	Variable var3 = new Variable("x3");
+    	Variable var4 = new Variable("x4");
+    	Variable var5 = new Variable("x5");
+    	Variable var6 = new Variable("x6");
+    	Variable var7 = new Variable("x7");
+    	Variable var8 = new Variable("x8");
+    	
+    	List<Variable> varlist = new ArrayList<Variable>();
+    	varlist.add(var);
+    	varlist.add(var1);
+    	varlist.add(var2);
+    	varlist.add(var3);
+    	varlist.add(var4);
+    	varlist.add(var5);
+      		varlist.add(var6);
+    	varlist.add(var7);
+    	varlist.add(var8); 
+    	
+    	List<Inst_Interface>asslist = new ArrayList<Inst_Interface>();
+    	Assign assign = new Assign(var, new Integer_Op(1));
+    	Assign assign1 = new Assign(var1, new Integer_Op(1));
+    	Assign assign2 = new Assign(var2, new Integer_Op(1));
+    	Assign assign3 = new Assign(var3, new Integer_Op(1));
+    	Assign assign4 = new Assign(var4, new Integer_Op(1));
+    	Assign assign5 = new Assign(var5, new Integer_Op(1));
+    	Assign assign6 = new Assign(var6, new Integer_Op(1));
+    	Assign assign7 = new Assign(var7, new Integer_Op(1));
+    	Assign assign8 = new Assign(var8, new Integer_Op(1));
+    	
+    	asslist.add(assign);
+    	asslist.add(assign1);
+    	asslist.add(assign2);
+    	asslist.add(assign3);
+    	asslist.add(assign4);
+    	asslist.add(assign5);
+    	asslist.add(assign6);
+    	asslist.add(assign7);
+    	asslist.add(assign8);
+    	Label lab = new Label("_");
+
+    	fun func = new fun (lab, varlist, asslist);
+    	function.add(func);
+    	return function;
+    }
+    
+    private  List<fun> function1 = funPopulate();
+
+    public void armgen(List<fun> func) {
+    	//funPopulate(func);
         for (fun fd : func) {
             armgen(fd);
         }
     }
-
+    
     private void armgen(fun funDef) {
 
         gen_label(funDef.lb);  //label name
         // initialization for the register allocator
-        register = new String[11];
+        register = new String[13];
         reg_no = 4;
 
 
@@ -46,7 +102,7 @@ public class ARMgenerator {
         for (Inst_Interface instruction : funDef.instruc) {
             Inst_Interface.inst_type typ = instruction.Get_Inst_type();
             if (typ != Inst_Interface.inst_type.Label) {
-                ARMBuffer.append("\n\n\t@ ").append(instruction.toString());
+                //ARMBuffer.append("\n\n\t@ ").append(instruction.toString());
             }
 
             if(typ == Inst_Interface.inst_type.Label)
@@ -99,7 +155,7 @@ public class ARMgenerator {
         else
         {
         	 String tmp = register[reg_no];
-             ARMBuffer.append("\n\tLDR r0, =").append(tmp);
+             ARMBuffer.append("\n\tLDR r0, ").append(tmp);
              ARMBuffer.append("\n\tSTR r").append(reg_no).append(", [r0]");
              int return_reg = reg_no;
              if(reg_no > 11)
@@ -139,7 +195,7 @@ public class ARMgenerator {
         	 rd = new_reg();
              int val = ((Integer_Op)op).val;
              register[rd] = v;
-             ARMBuffer.append("\n\tLDR r").append(rd).append(", =").append(val);
+             ARMBuffer.append("\n\tLDR r").append(rd).append(", #").append(val);
              return;
         }
         
@@ -181,7 +237,7 @@ public class ARMgenerator {
     	Operands.op_type typ = op.Get_Operand_Type();
     	if(typ == Operands.op_type.Integer) {
     		 ARMBuffer.append("\n\tLDR ").append(register_s);
-             ARMBuffer.append(", =").append(((Integer_Op) op).val);
+             ARMBuffer.append(", #").append(((Integer_Op) op).val);
              return;	
     	}
     	
@@ -274,9 +330,14 @@ public class ARMgenerator {
         Assignment("r11", i.op);
     }
 
-    public void ARM_assembly_write(PrintStream out) {
-        out.println(ARMBuffer.toString());
+    public void ARM_assembly_write(StringBuffer out) {
+        out.append(ARMBuffer.toString());
     }
-
+    
+    public void outputARM(StringBuffer out) {
+            ARMgenerator arm = new ARMgenerator();
+            arm.armgen(function1);
+            arm.ARM_assembly_write(out);
+    }
 }
 

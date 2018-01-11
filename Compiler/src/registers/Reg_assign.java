@@ -17,7 +17,9 @@ public class Reg_assign {
 	public ArrayList<String> regname=new ArrayList<String>();
 	
 	int n = local.size();
-	static String[] regLocal = new String[7];
+	static String[] regLocal = new String[13];
+
+	
 	static String[] regParam = new String[4];
 	
 
@@ -28,24 +30,18 @@ public class Reg_assign {
 	
 	//we would call assignLocal() from call_Local()
 	
-	public void  call_Local() {
-		int i;
-		for(i=0;i<n;i++) {
-			String s=assignLocal(i);
-			regname.add(s);
-		}
-			
-		
-		
-	}
+
 
 	
 	public static int getRegsLocal() {
+		//System.out.println(regLocal[12]);
 		int i1=INT_MIN;
 		for (int i = 4; i <= 12; i++)
 		{
 			if(regLocal[i]==null) {
+				regLocal[i] = "r";
 				i1 = i;
+				return i1;
 			}
 		}
 		return i1; 

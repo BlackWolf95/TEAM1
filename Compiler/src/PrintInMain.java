@@ -7,6 +7,7 @@ import ASML_Code_Generation.AM_Print_Visitor;
 import ASML_Code_Generation.AM_TransVisitor;
 import Alpha_conversion.Alpha_con;
 import Expression.*;
+import ARMGen.*;
 
 import K_Nor.KNor;
 import Reduction_nested.Reduction_N;
@@ -15,6 +16,8 @@ import Visiteur.*;
 import Heights.*;
 
 public class PrintInMain {
+	
+	public  static StringBuffer outp  = new StringBuffer();
 	
 	public static void PrintAST(String path)
 	{
@@ -48,11 +51,16 @@ public class PrintInMain {
 			  System.out.println();
 			  
 			  System.out.println("------ ASML ----"); 
-			  AM_Exp expressAM = expressR.accept(new AM_TransVisitor() );
-			  expressAM.accept(new AM_Print_Visitor());
+			 // AM_Exp expressAM = expressR.accept(new AM_TransVisitor() );
+			  //expressAM.accept(new AM_Print_Visitor());
 			  System.out.println();
 			  		 		   
-		      ObjVisitor<Integer> v = new HeightVisitor();
+			  System.out.println("------ ARM ----");
+			  ARMgenerator arm = new ARMgenerator();
+			  arm.outputARM(outp);
+			  System.out.println(outp);
+				  
+			  ObjVisitor<Integer> v = new HeightVisitor();
 		      height = expression.accept(v);
 		      System.out.println("using HeightVisitor: " + height);
 
