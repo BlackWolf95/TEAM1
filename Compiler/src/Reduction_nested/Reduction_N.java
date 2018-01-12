@@ -1,5 +1,8 @@
 package Reduction_nested;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Expression.Add;
 import Expression.App;
 import Expression.Array;
@@ -12,6 +15,7 @@ import Expression.FMul;
 import Expression.FNeg;
 import Expression.FSub;
 import Expression.Float;
+import Expression.FunDef;
 import Expression.Get;
 import Expression.If;
 import Expression.Int;
@@ -143,9 +147,8 @@ public class Reduction_N implements ObjVisitor<Exp>{
 
 	@Override
 	public Exp visit(If e) {
-		// TODO Auto-generated method stub
-	//	Exp iff=new If(e.e1.accept(this), e.e2.accept(this), e.e3.accept(this)); 
-		return null;
+		// TODO Auto-generated method stub 
+		return new If(e.e1.accept(this), e.e2.accept(this), e.e3.accept(this));
 	}
 
 	@Override
@@ -194,13 +197,51 @@ public class Reduction_N implements ObjVisitor<Exp>{
 	@Override
 	public Exp visit(Tuple e) {
 		// TODO Auto-generated method stub
-		return null;
+		List<Exp> list=new ArrayList<>();
+		for(int i=0;i<list.size();i++){
+			list.add(e.es.get(i));
+		}
+		return new Tuple(list);
 	}
 
 	@Override
 	public Exp visit(LetTuple e) {
 		// TODO Auto-generated method stub
-		return null;
+		List<Id> listId=new ArrayList<Id>();
+		for(int i=0;i<listId.size();i++){
+			listId.add(e.ids.get(i));
+		}
+		
+		List<Type> listType=new ArrayList<Type>();
+		for(int i=0;i<listType.size();i++){
+			listType.add(e.ts.get(i));
+		}
+		Exp E1=e.e1.accept(this);
+		if(E1 instanceof Let){
+			Let letExp=(Let)E1;
+			Id id=letExp.id;
+			Type t=letExp.t;
+			Exp e1_let=letExp.e1.accept(this);
+			Exp e2_let=letExp.e2.accept(this);
+			Exp E2=e.e2.accept(this);
+			return new Let(id, t, e1_let, new LetTuple(listId, listType, e2_let, E2).accept(this));
+		}else if(E1 instanceof LetTuple){
+			LetTuple letTuExp=(LetTuple) E1;
+			List<Id> listId1=new ArrayList<Id>();
+			List<Type> listType2=new ArrayList<Type>();
+			Exp e1_letTu=letTuExp.e1.accept(this);
+			Exp e2_letTu=letTuExp.e2.accept(this);
+			Exp E2=e.e2.accept(this);
+			return new LetTuple(listId1, listType2, e1_letTu, new LetTuple(listId, listType, e2_letTu, E2).accept(this));
+		}else if(E1 instanceof LetRec){
+			LetRec letRecExp=(LetRec) E1;
+			FunDef fd=letRecExp.fd;
+			Exp e_letrec=letRecExp.e;
+			Exp E2=e.e2.accept(this);
+			return new LetRec(fd, new LetTuple(listId, listType, e_letrec, E2).accept(this));
+		}else{
+			return new LetTuple(listId, listType, E1, e.e2.accept(this));
+		}
 	}
 
 	@Override

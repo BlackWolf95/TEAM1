@@ -138,7 +138,7 @@ public class Alpha_con implements ObjVisitor<Exp> {
 	@Override
 	public Exp visit(If e) {
 		// TODO Auto-generated method stub
-		return null;
+		return new If(e.e1.accept(this), e.e2.accept(this), e.e3.accept(this));
 	}
 
 	@Override
@@ -216,13 +216,35 @@ public class Alpha_con implements ObjVisitor<Exp> {
 	@Override
 	public Exp visit(Tuple e) {
 		// TODO Auto-generated method stub
-		return null;
+		List<Exp> list=new ArrayList<>();
+		for(int i=0;i<list.size();i++){
+			list.add(e.es.get(i));
+		}
+		return new Tuple(list);
 	}
 
 	@Override
 	public Exp visit(LetTuple e) {
 		// TODO Auto-generated method stub
-		return null;
+		HashMap<String,String> hm4 = (HashMap<String, String>) hm.clone();
+		List<Id> listId=new ArrayList<Id>();
+		if(hm.get(listId.toString())!=null){
+			List<Id> newListId=new ArrayList<>();
+        	for(int i=0;i<listId.size();i++){
+			newListId.add(Id.gen());
+			hm.put(listId.get(i).toString(), newListId.get(i).toString());
+		}
+		}else{
+		    for(int i=0;i<listId.size();i++){
+		    hm.put(listId.get(i).toString(), listId.get(i).toString());
+		    }		
+		}
+		List<Type> listType=new ArrayList<Type>();
+		for(int i=0;i<listType.size();i++){
+			listType.add(e.ts.get(i));
+		}
+		hm=hm4;
+		return new LetTuple(listId,listType, e.e1.accept(this), e.e2.accept(this));
 	}
 
 	@Override

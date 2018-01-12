@@ -6,6 +6,7 @@ import ASML_Code_Generation.AM_Exp;
 import ASML_Code_Generation.AM_Print_Visitor;
 import ASML_Code_Generation.AM_TransVisitor;
 import Alpha_conversion.Alpha_con;
+import Closure_Conversion.Closure_Con;
 import Expression.*;
 import ARMGen.*;
 
@@ -50,7 +51,13 @@ public class PrintInMain {
 			  expressR.accept(new PrintVisitor());
 			  System.out.println();
 			  
-			  System.out.println("------ ASML ----"); 
+
+		    System.out.println("------ Closure ----"); 
+			  Exp expressC = expressA.accept(new Closure_Con() );
+			  expressC.accept(new PrintVisitor());
+			  System.out.println();
+      
+      System.out.println("------ ASML ----"); 
 			 // AM_Exp expressAM = expressR.accept(new AM_TransVisitor() );
 			  //expressAM.accept(new AM_Print_Visitor());
 			  System.out.println();
