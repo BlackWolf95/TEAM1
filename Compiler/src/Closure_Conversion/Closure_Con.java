@@ -39,49 +39,57 @@ public class Closure_Con implements ObjVisitor<Exp>{
 	@Override
 	public Exp visit(Unit e) {
 		// TODO Auto-generated method stub
-		return null;
+		return e;
 	}
 
 	@Override
 	public Exp visit(Bool e) {
 		// TODO Auto-generated method stub
-		return null;
+		return e;
 	}
 
 	@Override
 	public Exp visit(Int e) {
 		// TODO Auto-generated method stub
-		return null;
+		return e;
 	}
 
 	@Override
 	public Exp visit(Float e) {
 		// TODO Auto-generated method stub
-		return null;
+		return e;
 	}
 
 	@Override
 	public Exp visit(Not e) {
 		// TODO Auto-generated method stub
-		return null;
+		 Exp not=e.e.accept(this);	
+		 return not;
 	}
 
 	@Override
 	public Exp visit(Neg e) {
 		// TODO Auto-generated method stub
-		return null;
+		Exp neg=e.e.accept(this);
+		return neg;
 	}
 
 	@Override
 	public Exp visit(Add e) {
 		// TODO Auto-generated method stub
-		return null;
+		Exp add1=e.e1.accept(this);
+		Exp add2=e.e2.accept(this);
+		Add add=new Add(add1,add2);
+		return add;
 	}
 
 	@Override
 	public Exp visit(Sub e) {
 		// TODO Auto-generated method stub
-		return null;
+		Exp sub1=e.e1.accept(this);
+		Exp sub2=e.e2.accept(this);
+		Sub sub=new Sub(sub1, sub2);
+		return sub;
 	}
 
 	@Override
@@ -135,42 +143,42 @@ public class Closure_Con implements ObjVisitor<Exp>{
 	@Override
 	public Exp visit(Let e) {
 		// TODO Auto-generated method stub
-		return null;
+		return e;
 	}
 
 	@Override
 	public Exp visit(Var e) {
 		// TODO Auto-generated method stub
-		return null;
+		return e;
 	}
 
 	@Override
 	public Exp visit(LetRec e) {
 		// TODO Auto-generated method stub
-		String label=e.fd.toString();
-		FunDef funDef=e.fd;
-		Id id=e.fd.id;
+		String label=e.fd.id.toString();
+//		//FunDef funDef=e.fd;
+//		Id id=e.fd.id;
 		Type type=e.fd.type;
 		List<Id> listId=e.fd.args;
-		if(e.fd.e instanceof LetRec){
-			
-		}else {
-          for(int i=0;i<listId.size();i++){
-        	  List<Var> listVar=new ArrayList<Var>();
-        	  listVar.add(new Var(listId.get(i)));     
+		List<Var> listVar=new ArrayList<Var>();
+        for(int i=0;i<listId.size();i++){
+//           if(listId.get(i).) {       	  
+           listVar.add(new Var(listId.get(i)));
+//           }
           }
-		}
-		
-		
-		e.e.accept(this);
-		
-		return null;
+        System.out.println("label: "+label);
+  		for(int i=0;i<listVar.size();i++){
+  		System.out.println("parameters:" +listVar.get(i));
+  		}
+  		System.out.println("code:");
+  		LetRec letrec=new LetRec(e.fd, e.e.accept(this));
+  		return letrec;
 	}
 
 	@Override
 	public Exp visit(App e) {
 		// TODO Auto-generated method stub
-		return null;
+		return e;
 	}
 
 	@Override

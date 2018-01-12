@@ -178,7 +178,7 @@ public class AM_TransVisitor implements ObjVisitor<AM_Exp>{
 		// TODO Auto-generated method stub
 		Asml_Fundef asml_fun=new Asml_Fundef(e.fd.id, e.fd.type, e.fd.args, e.e.accept(this));
 		A_LetRec a_letRec=new A_LetRec(asml_fun, e.e.accept(this));
-	    System.out.println(e.fd.id);
+	    //System.out.println(e.fd.id);
 		return a_letRec;
 	}
 
