@@ -10,6 +10,7 @@ import Alpha_conversion.Alpha_con;
 import Asml_Into_File.Asml_into_File;
 import Closure_Conversion.Closure_Con;
 import Expression.*;
+import ARMGen.*;
 
 import K_Nor.KNor;
 import Reduction_nested.Reduction_N;
@@ -18,6 +19,8 @@ import Visiteur.*;
 import Heights.*;
 
 public class PrintInMain {
+	
+	public  static StringBuffer outp  = new StringBuffer();
 	
 	public static void PrintAST(String path)
 	{
@@ -59,6 +62,7 @@ public class PrintInMain {
 			  expressR.accept(new PrintVisitor());
 			  System.out.println();
 			  
+
 //			  System.out.println("------ Closure ----"); 
 //			  Exp expressC = expressA.accept(new Closure_Con() );
 //			  expressC.accept(new PrintVisitor());
@@ -73,7 +77,12 @@ public class PrintInMain {
 			  
 			 
 			  		 		   
-		      ObjVisitor<Integer> v = new HeightVisitor();
+			  System.out.println("------ ARM ----");
+			  ARMgenerator arm = new ARMgenerator();
+			  arm.outputARM(outp);
+			  System.out.println(outp);
+				  
+			  ObjVisitor<Integer> v = new HeightVisitor();
 		      height = expression.accept(v);
 		      System.out.println("using HeightVisitor: " + height);
 

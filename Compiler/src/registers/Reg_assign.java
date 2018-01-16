@@ -11,14 +11,16 @@ import java.util.*;
 public class Reg_assign {
 	
 	//list of local variables of the function
-	private int INT_MIN = -32767; 
+	public static int INT_MIN = -32767; 
 	//public List<FunDef> function = new ArrayList<>();
 	public List<Variable> local = new ArrayList<>();
 	public ArrayList<String> regname=new ArrayList<String>();
 	
 	int n = local.size();
-	String[] regLocal = new String[7];
-	String[] regParam = new String[4];
+	static String[] regLocal = new String[13];
+
+	
+	static String[] regParam = new String[4];
 	
 
 	public Reg_assign(List<Variable> local) {
@@ -28,34 +30,18 @@ public class Reg_assign {
 	
 	//we would call assignLocal() from call_Local()
 	
-	public void  call_Local() {
-		int i;
-		for(i=0;i<n;i++) {
-			String s=assignLocal(i);
-			regname.add(s);
-		}
-			
-		
-		
-	}
 
-	public String assignLocal(int i1) {	
-		String element;
-		//create register in the form of string arrays
-		int i=getRegsLocal();
-		regLocal[i]= local.get(i1).toString();
-		element="reg["+i+"]";
-		//now we replace the local variable by the name of its corresponding register
-		return element;
-		
-	}
+
 	
-	public int getRegsLocal() {
+	public static int getRegsLocal() {
+		//System.out.println(regLocal[12]);
 		int i1=INT_MIN;
 		for (int i = 4; i <= 12; i++)
 		{
 			if(regLocal[i]==null) {
+				regLocal[i] = "r";
 				i1 = i;
+				return i1;
 			}
 		}
 		return i1; 
