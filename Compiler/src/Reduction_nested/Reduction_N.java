@@ -191,14 +191,19 @@ public class Reduction_N implements ObjVisitor<Exp>{
 	@Override
 	public Exp visit(App e) {
 		// TODO Auto-generated method stub
-		return null;
+		Exp e1=e.e.accept(this);
+		List<Exp> list=new ArrayList<Exp>();
+		for(int i=0;i<e.es.size();i++){
+			list.add(e.es.get(i));
+		}
+		return new App(e1, list);
 	}
 
 	@Override
 	public Exp visit(Tuple e) {
 		// TODO Auto-generated method stub
 		List<Exp> list=new ArrayList<>();
-		for(int i=0;i<list.size();i++){
+		for(int i=0;i<e.es.size();i++){
 			list.add(e.es.get(i));
 		}
 		return new Tuple(list);
@@ -208,7 +213,7 @@ public class Reduction_N implements ObjVisitor<Exp>{
 	public Exp visit(LetTuple e) {
 		// TODO Auto-generated method stub
 		List<Id> listId=new ArrayList<Id>();
-		for(int i=0;i<listId.size();i++){
+		for(int i=0;i<e.ids.size();i++){
 			listId.add(e.ids.get(i));
 		}
 		
@@ -240,7 +245,7 @@ public class Reduction_N implements ObjVisitor<Exp>{
 			Exp E2=e.e2.accept(this);
 			return new LetRec(fd, new LetTuple(listId, listType, e_letrec, E2).accept(this));
 		}else{
-			return new LetTuple(listId, listType, E1, e.e2.accept(this));
+			return new LetTuple(listId, e.ts, E1, e.e2.accept(this));
 		}
 	}
 

@@ -103,6 +103,11 @@ public class AM_Print_Visitor implements AM_Visitor{
 	@Override
 	public void visit(A_Eq e) {
 		// TODO Auto-generated method stub
+		 System.out.print("(");
+		 e.a_e1.accept(this);
+	     System.out.print(" = ");
+	     e.a_e2.accept(this);
+	     System.out.print(")");
 		
 	}
 
