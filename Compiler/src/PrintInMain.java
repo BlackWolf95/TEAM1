@@ -52,6 +52,7 @@ public class PrintInMain {
 			  System.out.println();
 			  
 
+
 		    System.out.println("------ Closure ----"); 
 			  Exp expressC = expressA.accept(new Closure_Con() );
 			  expressC.accept(new PrintVisitor());

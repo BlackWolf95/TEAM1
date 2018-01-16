@@ -184,13 +184,13 @@ public class Closure_Con implements ObjVisitor<Exp>{
 	@Override
 	public Exp visit(Tuple e) {
 		// TODO Auto-generated method stub
-		return null;
+		return e;
 	}
 
 	@Override
 	public Exp visit(LetTuple e) {
 		// TODO Auto-generated method stub
-		return null;
+		return e;
 	}
 
 	@Override
