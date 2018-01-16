@@ -4,7 +4,9 @@ import registers.*;
 import java.io.PrintStream;
 import java.util.*;
 
+
 public class ARMgenerator {
+
 	public StringBuffer dataBuffer = new StringBuffer();
     public StringBuffer textBuffer = new StringBuffer();
     public int counter = 1;
@@ -12,7 +14,9 @@ public class ARMgenerator {
     public int no_arg_reg = 2;
     
 
+
     public ARMgenerator() {
+
 
     	dataBuffer.append("\t.data\n");
     	//text section
@@ -20,6 +24,7 @@ public class ARMgenerator {
     	textBuffer.append("\t.global _start\n");
     	textBuffer.append("_start:\n");
     	textBuffer.append("\tBL _main\n");
+
 
     }
     
@@ -215,6 +220,7 @@ public class ARMgenerator {
 
            arith_op("ADD",dest ,(int)operand1, place2);
      }
+
 
 
      else if(operand1 instanceof Variable && operand2 instanceof Variable){
@@ -651,6 +657,7 @@ public class ARMgenerator {
 
        Integer a = ((Integer_Op)instr.objnoop).get_val();
        textBuffer.append("\tLDR ").append("r0").append(", =").append(a).append("\n");
+
 
 }
    

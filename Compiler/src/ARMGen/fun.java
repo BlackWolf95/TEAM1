@@ -25,6 +25,7 @@ public class fun {
 		
 	}
 
+
 //Adding instruction to the list		
 	public void add_instructionlist(Inst_Interface instruction) {
 		instruc.add(instruction);
@@ -87,5 +88,6 @@ public class fun {
 		for(Variable loc : local) {
 			System.out.println(loc.get_name());
 		}
+
 	}
 }

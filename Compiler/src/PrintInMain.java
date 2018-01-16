@@ -14,6 +14,7 @@ import Alpha_conversion.Alpha_con;
 import Asml_Into_File.Asml_into_File;
 import Closure_Conversion.Closure_Con;
 import Expression.*;
+import ARMGen.*;
 
 import ARMGen.*;
 import java.util.*;
@@ -68,10 +69,11 @@ public class PrintInMain {
 			  System.out.println();
 			  
 
-			  System.out.println("------ ASML ----"); 
-			  AM_Exp expressAM = expressR.accept(new AM_TransVisitor() );
-			  expressAM.accept(new AM_Print_Visitor());
-			  System.out.println();
+
+//			  System.out.println("------ Closure ----"); 
+//			  Exp expressC = expressA.accept(new Closure_Con() );
+//			  expressC.accept(new PrintVisitor());
+//			  System.out.println();
 			 
 			  		 		   
 			  System.out.println("------ ASML ----"); 
@@ -103,6 +105,8 @@ public class PrintInMain {
 		
 				  
 			  ObjVisitor<Integer> v = new HeightVisitor();
+				  
+
 		      height = expression.accept(v);
 		      System.out.println("using HeightVisitor: " + height);
 
