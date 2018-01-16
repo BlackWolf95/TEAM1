@@ -25,13 +25,17 @@ public class Main {
 			  switch(argv[0])
 			  {
 			  case "-h":
-				  System.out.println("\t-p\t in order to get parsed AST use -p with path to file e.g. -p /home/pc/adder.ml");
+				  System.out.println("\t-asml\t generate asml\n"
+				  		+ "\t-o\t output into a file\n"
+				  		+ "\t-p\t in order to get parsed AST use -p with path to file e.g. -p mincalm/adder.ml\n"
+				  		+ "\t-t\t typechecking\n"
+				  		+ "\t-v\t current vertion of the program\n");
 				  break;
 			  case "-t":
 				  System.out.println("NotYetImplemented");
 				  break;
 			  case "-v":
-				  System.out.println("NotYetImplemented");
+				  System.out.println("TEAM1 Compiler v.1.0 Midterm submition");
 				  break;
 			  case "-asml":
 				  System.out.println("NotYetImplemented");

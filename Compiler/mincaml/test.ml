@@ -1,2 +1,2 @@
-let x = let y = let z = 1 + 2 in z in y
-in x
+let rec add x y =x+y
+in print_int(add 3 4)

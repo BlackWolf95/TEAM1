@@ -1,5 +1,6 @@
 package K_Nor;
 
+import java.io.LineNumberInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -61,6 +62,7 @@ public class KNor implements ObjVisitor<Exp> {
 		// TODO Auto-generated method stub
 		Exp bool= new Bool(e.b);
 		return bool;
+		
 	}
 
 	@Override
@@ -216,7 +218,13 @@ public class KNor implements ObjVisitor<Exp> {
 	public Exp visit(LetRec e) {
 		// TODO Auto-generated method stub
 		FunDef fd=e.fd;
-		LetRec letrec=new LetRec(fd, e.e.accept(this));
+		Exp e_fd=e.fd.e.accept(this);
+		Id id_fd=fd.id;
+		Type type_fd=fd.type;
+		List<Id> args_fd=fd.args;
+				
+		FunDef new_fd=new FunDef(id_fd, type_fd, args_fd, e_fd);
+		LetRec letrec=new LetRec(new_fd, e.e.accept(this));
 		return letrec;
 	}
 
@@ -225,7 +233,7 @@ public class KNor implements ObjVisitor<Exp> {
 		// TODO Auto-generated method stub
 		Exp e1=e.e.accept(this);
 		List<Exp> list=new ArrayList<Exp>();
-		for(int i=0;i<list.size();i++){
+		for(int i=0;i<e.es.size();i++){
 			list.add(e.es.get(i));
 		}
 		return new App(e1, list);
@@ -235,9 +243,14 @@ public class KNor implements ObjVisitor<Exp> {
 	public Exp visit(Tuple e) {
 		// TODO Auto-generated method stub
 		List<Exp> list=new ArrayList<>();
-		for(int i=0;i<list.size();i++){
+		for(int i=0;i<e.es.size();i++){
 			list.add(e.es.get(i));
+			//System.out.println(list.get(i));
 		}
+//		for(int i=0;i<list.size();i++){
+//			list.add(e.es.get(i));
+//			System.out.println(list.get(i));
+//		}
 		return new Tuple(list);
 	}
 
@@ -245,16 +258,16 @@ public class KNor implements ObjVisitor<Exp> {
 	public Exp visit(LetTuple e) {
 		// TODO Auto-generated method stub
 		List<Id> listId=new ArrayList<Id>();
-		for(int i=0;i<listId.size();i++){
+		for(int i=0;i<e.ids.size();i++){
 			listId.add(e.ids.get(i));
 		}
 		
-		List<Type> listType=new ArrayList<Type>();
-		for(int i=0;i<listType.size();i++){
-			listType.add(e.ts.get(i));
-		}
-		
-		return new LetTuple(listId, listType, e.e1.accept(this), e.e2.accept(this));
+//		List<Type> listType=new ArrayList<Type>();		
+//		for(int i=0;i<e.ts.size();i++){
+//			listType.add(e.ts.get(i));
+//		}
+        
+		return new LetTuple(listId, e.ts, e.e1.accept(this), e.e2.accept(this));
 	}
 
 	@Override

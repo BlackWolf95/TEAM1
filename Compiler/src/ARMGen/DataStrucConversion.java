@@ -91,7 +91,6 @@ public class DataStrucConversion {
         return null;
 }
 	public Integer_Add visit(Add e, fun fun) {
-        System.out.println("ADD");
         ArrayList<Variable> varlist = new ArrayList<Variable>();
         String var1 = ((Var)e.e1).id.toString();
         String var2 = ((Var)e.e2).id.toString();
@@ -131,7 +130,6 @@ public class DataStrucConversion {
         }
 }
 public Integer_Sub visit(Sub e, fun fun){
-    System.out.println("SUB");
     ArrayList<Variable> varlist = new ArrayList<Variable>();
 
     String var1 = ((Var)e.e1).id.toString();
@@ -174,7 +172,6 @@ public Integer_Sub visit(Sub e, fun fun){
 }
 
 public void visit(Let e, fun fun) {
-	System.out.println("LET");
     if (e.e1 instanceof Int) {
             Integer val = (Integer) visit(e.e1, fun);
             Integer_Op var = new Integer_Op(e.id.toString(), val, fun);
@@ -249,7 +246,6 @@ public Integer visit(Neg e, fun fun){
 }
 
 public void visit(App e, fun fun){
-    System.out.println("APP");
     ArrayList<Object> varlist = new ArrayList<Object>();
     for (Exp ex : e.es) {
             Object var = (Object) visit(ex, fun);
@@ -366,8 +362,6 @@ public If_Inst visit(If e, fun fun) {
 }
 
 public void visit(LetRec e, fun fun){
-    System.out.println("LETREC");
-
     ArrayList<Variable> arglist = new ArrayList<Variable>();
     ArrayList<Registers> reglist= new ArrayList<Registers>(9);
     ArrayList<Registers> arg_reglist = new ArrayList<Registers>(2);

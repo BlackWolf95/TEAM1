@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import Expression.Exp;
+import Visiteur.Visitor;
 
 public class AM_Print_Visitor implements AM_Visitor{
 
@@ -17,8 +18,7 @@ public class AM_Print_Visitor implements AM_Visitor{
 	@Override
 	public void visit(A_Bool e) {
 		// TODO Auto-generated method stub
-		
-		
+		// System.out.print(e.b);
 	}
 
 	@Override
@@ -103,6 +103,11 @@ public class AM_Print_Visitor implements AM_Visitor{
 	@Override
 	public void visit(A_Eq e) {
 		// TODO Auto-generated method stub
+		 System.out.print("(");
+		 e.a_e1.accept(this);
+	     System.out.print(" = ");
+	     e.a_e2.accept(this);
+	     System.out.print(")");
 		
 	}
 
@@ -178,12 +183,23 @@ public class AM_Print_Visitor implements AM_Visitor{
 	@Override
 	public void visit(A_LetRec e) {
 		// TODO Auto-generated method stub
-		
+		 System.out.print("(let rec " + e.a_df.id + " ");
+	     printInfix(e.a_df.args, " ");
+	     System.out.print(" = ");
+	     e.a_df.e.accept(this);
+	     System.out.print(" in ");
+	     e.a_e.accept(this);
+	     System.out.print(")");
 	}
 
 	@Override
 	public void visit(A_App e) {
 		// TODO Auto-generated method stub
+		 System.out.print("(");
+	     e.e.accept(this);
+	     System.out.print(" ");
+	     printInfix2(e.es, " ");
+	     System.out.print(")");
 		
 	}
 

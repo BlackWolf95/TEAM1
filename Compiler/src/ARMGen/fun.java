@@ -24,6 +24,7 @@ public class fun {
 		this.arg_reg = arg_reg;
 		
 	}
+
 //Adding instruction to the list		
 	public void add_instructionlist(Inst_Interface instruction) {
 		instruc.add(instruction);

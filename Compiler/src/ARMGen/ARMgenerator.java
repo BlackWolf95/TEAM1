@@ -11,13 +11,16 @@ public class ARMgenerator {
     public int no_reg = 9;
     public int no_arg_reg = 2;
     
+
     public ARMgenerator() {
+
     	dataBuffer.append("\t.data\n");
     	//text section
     	textBuffer.append("\t.text\n");
     	textBuffer.append("\t.global _start\n");
     	textBuffer.append("_start:\n");
     	textBuffer.append("\tBL _main\n");
+
     }
     
     public void armgen(List<fun> func) {
@@ -212,6 +215,7 @@ public class ARMgenerator {
 
            arith_op("ADD",dest ,(int)operand1, place2);
      }
+
 
      else if(operand1 instanceof Variable && operand2 instanceof Variable){
            arith_op("ADD",dest ,place1, place2);

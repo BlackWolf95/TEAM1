@@ -9,8 +9,13 @@ import ASML.Asml;
 import ASML_Code_Generation.AM_Exp;
 import ASML_Code_Generation.AM_Print_Visitor;
 import ASML_Code_Generation.AM_TransVisitor;
+import ASML_Code_Generation.Asml_Print_Visitor_ml;
 import Alpha_conversion.Alpha_con;
+import Asml_Into_File.Asml_into_File;
+import Closure_Conversion.Closure_Con;
 import Expression.*;
+
+import ARMGen.*;
 import java.util.*;
 import K_Nor.KNor;
 import Reduction_nested.Reduction_N;
@@ -20,12 +25,23 @@ import Heights.*;
 
 public class PrintInMain {
 	
+	public  static StringBuffer outp  = new StringBuffer();
+	
 	public static void PrintAST(String path)
 	{
 		try {
 		      Parser p = new Parser(new Lexer(new FileReader(path)));
 		      Exp expression = (Exp) p.parse().value;      
 		      assert (expression != null);
+		      
+		      System.out.println("------ ASML into File ----");
+			  FileOutputStream file = new FileOutputStream("d:\\test.txt");
+//			  String output=System.out.toString();
+//			  output.replace("rec", newChar);
+//			  output.indexOf("let");
+			  Asml_into_File tee = new Asml_into_File(file, System.out);
+			  System.setOut(tee);
+			  System.out.println("it's ok");
 
 		      System.out.println("------ AST ------");
 		      expression.accept(new PrintVisitor());
@@ -40,22 +56,31 @@ public class PrintInMain {
 		      Exp expressK = expression.accept(new KNor());
      	      expressK.accept(new PrintVisitor());
      	      System.out.println();
-/*		      
+	      
 		      System.out.println("------ Alpha ----"); 
 		      Exp expressA = expressK.accept(new Alpha_con());
 		      expressA.accept(new PrintVisitor());
 		      System.out.println();
-     	      /*
+     	      
 	     	  System.out.println("------ Reduction ----"); 
 			  Exp expressR = expressA.accept(new Reduction_N() );
 			  expressR.accept(new PrintVisitor());
 			  System.out.println();
 			  
+
 			  System.out.println("------ ASML ----"); 
 			  AM_Exp expressAM = expressR.accept(new AM_TransVisitor() );
 			  expressAM.accept(new AM_Print_Visitor());
 			  System.out.println();
-			  */
+			 
+			  		 		   
+			  System.out.println("------ ASML ----"); 
+//			  AM_Exp expressAM = expressR.accept(new AM_TransVisitor() );
+//			  expressAM.accept(new AM_Print_Visitor());
+//			  System.out.println();
+			  expressR.accept(new Asml_Print_Visitor_ml());
+			  System.out.println();
+			  
 			  System.out.println("------ ARM ----"); 
               ArrayList<Registers> reg = new ArrayList<Registers>(9);
               ArrayList<Registers> argreg= new ArrayList<Registers>(2);
@@ -63,7 +88,7 @@ public class PrintInMain {
               
               fun func = new fun("main", new ArrayList(), new ArrayList(), reg, argreg);
               DataStrucConversion data = new DataStrucConversion();
-              data.visit(expression, func);
+              data.visit(expressR, func);
               
               Alloc alloc = new Alloc();
               alloc.allocation(func);
@@ -74,8 +99,10 @@ public class PrintInMain {
               arm.armgen(funlist);
               StringBuffer result= arm.textBuffer;
   	          System.out.println(result);
-			  		 		   
-		      ObjVisitor<Integer> v = new HeightVisitor();
+			  
+		
+				  
+			  ObjVisitor<Integer> v = new HeightVisitor();
 		      height = expression.accept(v);
 		      System.out.println("using HeightVisitor: " + height);
 
