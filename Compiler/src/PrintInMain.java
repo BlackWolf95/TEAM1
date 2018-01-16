@@ -5,7 +5,9 @@ import ASML.Asml;
 import ASML_Code_Generation.AM_Exp;
 import ASML_Code_Generation.AM_Print_Visitor;
 import ASML_Code_Generation.AM_TransVisitor;
+import ASML_Code_Generation.Asml_Print_Visitor_ml;
 import Alpha_conversion.Alpha_con;
+import Asml_Into_File.Asml_into_File;
 import Closure_Conversion.Closure_Con;
 import Expression.*;
 import ARMGen.*;
@@ -26,6 +28,15 @@ public class PrintInMain {
 		      Parser p = new Parser(new Lexer(new FileReader(path)));
 		      Exp expression = (Exp) p.parse().value;      
 		      assert (expression != null);
+		      
+		      System.out.println("------ ASML into File ----");
+			  FileOutputStream file = new FileOutputStream("d:\\test.txt");
+//			  String output=System.out.toString();
+//			  output.replace("rec", newChar);
+//			  output.indexOf("let");
+			  Asml_into_File tee = new Asml_into_File(file, System.out);
+			  System.setOut(tee);
+			  System.out.println("it's ok");
 
 		      System.out.println("------ AST ------");
 		      expression.accept(new PrintVisitor());
@@ -52,16 +63,19 @@ public class PrintInMain {
 			  System.out.println();
 			  
 
-
-		    System.out.println("------ Closure ----"); 
-			  Exp expressC = expressA.accept(new Closure_Con() );
-			  expressC.accept(new PrintVisitor());
+//			  System.out.println("------ Closure ----"); 
+//			  Exp expressC = expressA.accept(new Closure_Con() );
+//			  expressC.accept(new PrintVisitor());
+//			  System.out.println();
+			  		 		   
+			  System.out.println("------ ASML ----"); 
+//			  AM_Exp expressAM = expressR.accept(new AM_TransVisitor() );
+//			  expressAM.accept(new AM_Print_Visitor());
+//			  System.out.println();
+			  expressR.accept(new Asml_Print_Visitor_ml());
 			  System.out.println();
-      
-      System.out.println("------ ASML ----"); 
-			 // AM_Exp expressAM = expressR.accept(new AM_TransVisitor() );
-			  //expressAM.accept(new AM_Print_Visitor());
-			  System.out.println();
+			  
+			 
 			  		 		   
 			  System.out.println("------ ARM ----");
 			  ARMgenerator arm = new ARMgenerator();
