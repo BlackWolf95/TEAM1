@@ -178,15 +178,15 @@ public class AM_TransVisitor implements ObjVisitor<AM_Exp>{
 		// TODO Auto-generated method stub
  		Asml_Fundef asml_fun=new Asml_Fundef(e.fd.id, e.fd.type, e.fd.args, e.e.accept(this));
 		A_LetRec a_letRec=new A_LetRec(asml_fun, e.e.accept(this));
-//	    System.out.println(e.fd.id);
-//	    System.out.println(e.fd.e);
-//	    System.out.println(e.fd.args.get(0));
-//	    System.out.println(e.e.accept(this));
-//	    
-//	    System.out.println(a_letRec.a_df.id);
-//	    System.out.println(a_letRec.a_df.e);
-//	    System.out.println(a_letRec.a_df.args.get(0));
-//	    System.out.println(a_letRec.a_e);
+	    System.out.println(e.fd.id);
+	    System.out.println(e.fd.e);
+	    System.out.println(e.fd.args.get(0));
+	    System.out.println(e.e.accept(this));
+	    
+	    System.out.println(a_letRec.a_df.id);
+	    System.out.println(a_letRec.a_df.e);
+	    System.out.println(a_letRec.a_df.args.get(0));
+	    System.out.println(a_letRec.a_e);
 		return a_letRec;
 		//return null;
 	}
