@@ -5,9 +5,8 @@ public interface Operands {
 	enum op_type 
 	{
 		Variable,
-		Integer,
-		Label
+		Integer
 	}
 	
-	op_type Get_Operand_Type();
+	op_type Get_Operand_Type();  
 }

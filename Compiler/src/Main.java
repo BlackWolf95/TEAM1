@@ -7,6 +7,8 @@ import Expression.*;
 import Visiteur.*;
 //import Parser.*;
 import Heights.*;
+import registers.Alloc;
+import registers.Registers;
 
 
 public class Main {
