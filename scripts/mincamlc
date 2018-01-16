@@ -1,0 +1,6 @@
+#!/bin/sh
+
+MINCAML_HOME=$(cd "$(dirname "$0")" Compiler/target/classes)
+CP_DIR="/java"
+CP="$CP_DIR/java-cup-11b-runtime.jar:$CP_DIR/"
+exec java  -enableassertions -cp "$CP" -classpath Compiler/target/classes Main "$@"
