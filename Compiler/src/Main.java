@@ -13,30 +13,45 @@ import registers.Registers;
 
 public class Main {
 	
+	private static String output = "output.s";
+	
   static public void main(String argv[]) { 
 	  
 	
 	  int n = argv.length;
+	  int i =0;
 	  if (n == 0)
 	  {
 		  System.out.println("No commands to execute. -h for help");
 	  }
 	  else {
-			  switch(argv[0])
-			  {
-			  case "-h":
-				  System.out.println("\t-asml\t generate asml\n"
-				  		+ "\t-o\t output into a file\n"
-				  		+ "\t-p\t in order to get parsed AST use -p with path to file e.g. -p mincalm/adder.ml\n"
-				  		+ "\t-t\t typechecking\n"
-				  		+ "\t-v\t current vertion of the program\n");
+		  switch(argv[0])
+		  {
+		  case "-h":
+			  System.out.println("\t-asml\t generate asml\n"
+			  		+ "\t-o\t output into a file\n"
+			  		+ "\t-p\t in order to get parsed AST use -p with path to file e.g. -p mincalm/adder.ml\n"
+			  		+ "\t-t\t typechecking\n"
+			  		+ "\t-v\t current vertion of the program\n");
+			  break;
+			  
+		  case "-v":
+			  System.out.println("TEAM1 Compiler v.1.1 Final submition");
+			  break;
+			  
+		  default:
 				  break;
+		  }
+		  
+		  while (i < n)
+		  {
+			  switch(argv[i])
+			  {
+			  
 			  case "-t":
 				  System.out.println("NotYetImplemented");
 				  break;
-			  case "-v":
-				  System.out.println("TEAM1 Compiler v.1.0 Midterm submition");
-				  break;
+			  
 			  case "-asml":
 				  System.out.println("NotYetImplemented");
 				  break;
@@ -50,21 +65,31 @@ public class Main {
 				  }				  
 				  break;
 			  case "-o":
-				  if (argv[1] == null)
+				  i++;
+				  if(argv[i].startsWith("-"))
+					{
+						System.out.println("Provide a file name for output");
+					}
+							  
+				  output = argv[i];
+				  try 
 				  {
-					  System.out.println("Provide a file name for output");
-				  }
-				  else
+		             PrintStream out = new PrintStream(new FileOutputStream(output));
+		             System.out.println("NotYetImplemented");
+		             out.println("NotYetImplemented");
+		          } 
+				  catch (FileNotFoundException e)
 				  {
-					  System.out.println("NotYetImplemented");
-				  }
-				  break;
+					  System.out.println("Provide a file name for output: " + e.getMessage());
+		              
+		          }
 			  
 			   default:
-				  System.out.println("Unexpected argument: " + argv[0]);
+				 // System.out.println("Unexpected argument: " + argv[0]);
 				  break;
-
 	  		}
+			  i++;
+		  }
 		  
 	  }
 	  

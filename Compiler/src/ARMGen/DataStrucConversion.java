@@ -389,48 +389,4 @@ public void visit(LetRec e, fun fun){
     visit(e.e, fun);
 }
 
-public Inst_Interface visit(Expression.Float e, fun fun){
-        return null;
-}
-
-public Inst_Interface visit(FNeg e, fun fun){
-        return null;
-}
-
-public Inst_Interface visit(FAdd e, fun fun){
-        return null;
-}
-
-public Inst_Interface visit(FSub e, fun fun){
-        return null;
-}
-
-public Inst_Interface visit(FMul e, fun fun){
-        return null;
-}
-
-public Inst_Interface visit(FDiv e, fun fun){
-        return null;
-}
-
-public Inst_Interface visit(Tuple e, fun fun){
-        return null;
-}
-
-public Inst_Interface visit(LetTuple e, fun fun){
-        return null;
-}
-
-public Inst_Interface visit(Array e, fun fun){
-        return null;
-}
-
-public Inst_Interface visit(Get e, fun fun){
-        return null;
-}
-
-public Inst_Interface visit(Put e, fun fun){
-        return null;
-}
-
 }

@@ -36,7 +36,7 @@ public class PrintInMain {
 		      assert (expression != null);
 		      
 		      System.out.println("------ ASML into File ----");
-			  FileOutputStream file = new FileOutputStream("d:\\test.txt");
+			  FileOutputStream file = new FileOutputStream("out.asml");
 //			  String output=System.out.toString();
 //			  output.replace("rec", newChar);
 //			  output.indexOf("let");
