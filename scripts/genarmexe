@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+cd "$(dirname "$0")"/.. || exit 1
+file="$1"
+mv scripts/$1 ARM/$1
+cd ..ARM/
+make
