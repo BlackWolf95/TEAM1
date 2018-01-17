@@ -53,7 +53,13 @@ public class Main {
 				  break;
 			  
 			  case "-asml":
-				  System.out.println("NotYetImplemented");
+				  File f1 = new File(argv[1]);
+				  if(f1.exists()) {
+					  PrintInMain.PrintASMl(argv[1]);
+				  }
+				  else {
+					  System.out.println("Wrong file path");
+				  }		
 				  break;
 			  case "-p":
 				  File f = new File(argv[1]);
@@ -75,8 +81,9 @@ public class Main {
 				  try 
 				  {
 		             PrintStream out = new PrintStream(new FileOutputStream(output));
-		             System.out.println("NotYetImplemented");
-		             out.println("NotYetImplemented");
+		             System.out.println("\nNotYetImplemented");
+		            // out.println("NotYetImplemented");
+		             PrintInMain.PrintFileASMl(output);
 		          } 
 				  catch (FileNotFoundException e)
 				  {

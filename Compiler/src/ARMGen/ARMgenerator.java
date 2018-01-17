@@ -807,8 +807,9 @@ public class ARMgenerator {
 
 	      }
 
-	      gen_branchcode(branchthen, gen_tlabel());  //code for then
-          gen_branchcode(branchelse, gen_tlabel());  //code for else
-	      return gen_tlabel();
+	      String lb = gen_tlabel();
+	      gen_branchcode(branchthen, lb);  //code for then
+          gen_branchcode(branchelse, lb);  //code for else
+	      return lb;
    }
 }
