@@ -37,23 +37,6 @@ import Types.Type;
 
 public class DataStrucConversion {
 	
-	public static Integer temp_Id = 0;
-	public static Integer temp_eId = 0;
-	public static Integer label = 0;
-	
-	public String get_temp_varname() { 
-        temp_Id++;
-        return "temp_var" + temp_Id.toString();  
-}
-	public String get_temp_boolexp() { 
-        temp_eId++;
-        return "temp_Boolexp" + temp_eId.toString();  
-}
-	public String get_new_label() {
-        label++;
-        return "label" + label.toString();
-}
-
 	public Object visit(Exp e, fun fun) {
 //If expression is of type Add then return an instruction of type Add		
         if (e instanceof Add) {
@@ -101,28 +84,41 @@ public class DataStrucConversion {
         }
         return null;
 }
-	 
+	
+	public static Integer var_count = 0;
+	public String get_tvar() { 
+        var_count = var_count + 1;
+        return "temp_var" + var_count.toString();  
+}
+	public static Integer exp_count = 0;
+	public String get_tboolexp() { 
+        exp_count = exp_count + 1;
+        return "temp_Boolexp" + exp_count.toString();  
+}
+	public static Integer label_count = 0;
+	public String get_new_label() {
+        label_count = label_count + 1;
+        return "label" + label_count.toString();
+} 
 	public Integer_Add visit(Add e, fun fun) {
         ArrayList<Variable> varlist = new ArrayList<Variable>();
-        String var1 = ((Var)e.e1).id.id;             //get the variables of add
-        String var2 = ((Var)e.e2).id.id;
         for (Variable v : fun.get_local()){         //get the variables of the function
-                if (var1 == v.get_name()) {
+                if (((Var)e.e1).id.toString() == v.get_name()) {
                         varlist.add(v);            //add them to the varlist if they match
                 }
         }
         if (varlist.size() == 0) {                 //if varlist is empty then get integer variables
-                Integer_Op temp1 = new Integer_Op(get_temp_varname(), (Integer) visit(e.e1, fun), fun);        	
+                Integer_Op temp1 = new Integer_Op(get_tvar(), (Integer) visit(e.e1, fun), fun);        	
                 varlist.add(temp1);      //add them to the list
         }
 
         for (Variable v : fun.get_local()) {
-                if (var2 == v.get_name()) {         //add to the list if they are same
+                if (((Var)e.e2).id.toString() == v.get_name()) {         //add to the list if they are same
                         varlist.add(v);
                 }
         }
         if (varlist.size() == 0) {
-                Integer_Op temp2 = new Integer_Op(get_temp_varname(), (Integer)visit(e.e2, fun), fun);
+                Integer_Op temp2 = new Integer_Op(get_tvar(), (Integer)visit(e.e2, fun), fun);
                 varlist.add(temp2);
         }
 
@@ -132,11 +128,11 @@ public class DataStrucConversion {
                 fun.add_instructionlist(instr);    //add the created Add instruction to the list
                 return instr;                      
         } catch (IndexOutOfBoundsException exception) {
-                Integer_Op temp1 = new Integer_Op(get_temp_varname(), (Integer)visit(e.e1, fun), fun);
-                Integer_Op temp2 = new Integer_Op(get_temp_varname(), (Integer)visit(e.e2, fun), fun);
+                Integer_Op temp1 = new Integer_Op(get_tvar(), (Integer)visit(e.e1, fun), fun);
+                Integer_Op temp2 = new Integer_Op(get_tvar(), (Integer)visit(e.e2, fun), fun);
                 fun.get_local().add(temp1);
                 fun.get_local().add(temp2);
-                Integer_Add instr = new Integer_Add(fun, temp1, temp2);
+                Integer_Add instr = new Integer_Add(fun, new Integer_Op(get_tvar(), (Integer)visit(e.e1, fun), fun), new Integer_Op(get_tvar(), (Integer)visit(e.e2, fun), fun));
                 fun.add_instructionlist(instr);
                 return instr;
         }
@@ -144,26 +140,23 @@ public class DataStrucConversion {
 public Integer_Sub visit(Sub e, fun fun){
     ArrayList<Variable> varlist = new ArrayList<Variable>();
 
-    String var1 = ((Var)e.e1).id.toString();
-    String var2 = ((Var)e.e2).id.toString();
-
     for (Variable v : fun.get_local()){
-            if (var1 == v.get_name()) {
+            if (((Var)e.e1).id.toString() == v.get_name()) {
                     varlist.add(v);
             }
     }
     if (varlist.size() == 0) {
-            Integer_Op temp1 = new Integer_Op(get_temp_varname(), (Integer)visit(e.e1, fun), fun);
+            Integer_Op temp1 = new Integer_Op(get_tvar(), (Integer)visit(e.e1, fun), fun);
             varlist.add(temp1);
     }
 
     for (Variable v : fun.get_local()) {
-            if (var2 == v.get_name()) {
+            if (((Var)e.e2).id.toString() == v.get_name()) {
                     varlist.add(v);
             }
     }
     if (varlist.size() == 0) {
-            Integer_Op temp2 = new Integer_Op(get_temp_varname(), (Integer)visit(e.e2, fun), fun);
+            Integer_Op temp2 = new Integer_Op(get_tvar(), (Integer)visit(e.e2, fun), fun);
             varlist.add(temp2);
     }
 
@@ -173,8 +166,8 @@ public Integer_Sub visit(Sub e, fun fun){
             fun.add_instructionlist(instr);
             return instr;
     } catch (IndexOutOfBoundsException exception) {
-            Integer_Op temp1 = new Integer_Op(get_temp_varname(), (Integer)visit(e.e1, fun), fun);
-            Integer_Op temp2 = new Integer_Op(get_temp_varname(), (Integer)visit(e.e2, fun), fun);
+            Integer_Op temp1 = new Integer_Op(get_tvar(), (Integer)visit(e.e1, fun), fun);
+            Integer_Op temp2 = new Integer_Op(get_tvar(), (Integer)visit(e.e2, fun), fun);
             fun.get_local().add(temp1);
             fun.get_local().add(temp2);
             Integer_Sub instr = new Integer_Sub(fun, temp1, temp2);
@@ -185,16 +178,14 @@ public Integer_Sub visit(Sub e, fun fun){
 
 public void visit(Let e, fun fun) {
     if (e.e1 instanceof Int) {                           
-            Integer val = (Integer) visit(e.e1, fun);
-            Integer_Op var = new Integer_Op(e.id.toString(), val, fun);
-            Assign instr = new Assign(fun, var, val);
+            Integer_Op var = new Integer_Op(e.id.toString(), (Integer) visit(e.e1, fun), fun);
+            Assign instr = new Assign(fun, var, (Integer) visit(e.e1, fun));
             fun.get_local().add(var);
             fun.add_instructionlist(instr);
     }
     else if (e.e1 instanceof Neg) {
-            Integer val = (Integer) visit(e.e1, fun);
-            Integer_Op var = new Integer_Op(e.id.toString(), val, fun);
-            Assign instr = new Assign(fun, var, val);
+            Integer_Op var = new Integer_Op(e.id.toString(), (Integer) visit(e.e1, fun), fun);
+            Assign instr = new Assign(fun, var, (Integer) visit(e.e1, fun));
             fun.get_local().add(var);
             fun.add_instructionlist(instr);
     }
@@ -202,16 +193,14 @@ public void visit(Let e, fun fun) {
             visit(e.e1, fun);
     }
     else if (e.e1 instanceof Add) {
-            Integer_Add addI = (Integer_Add) visit(e.e1, fun);
             Integer_Op var = new Integer_Op(e.id.toString(), 0, fun);
-            Assign instr = new Assign(fun, var, addI);
+            Assign instr = new Assign(fun, var, (Integer_Add) visit(e.e1, fun));
             fun.get_local().add(var);
             fun.add_instructionlist(instr);
     }
     else if (e.e1 instanceof Sub) {
-            Integer_Sub subI = (Integer_Sub) visit(e.e1, fun);
             Integer_Op var = new Integer_Op(e.id.toString(), 0, fun);
-            Assign instr = new Assign(fun, var, subI);
+            Assign instr = new Assign(fun, var, (Integer_Sub) visit(e.e1, fun));
             fun.get_local().add(var);
             fun.add_instructionlist(instr);
     }
@@ -222,23 +211,22 @@ public void visit(Let e, fun fun) {
             fun.add_instructionlist(instr);
     }
     else if (e.e1 instanceof If) {
-            If_Inst ifI= (If_Inst) visit(e.e1, fun);
             Integer_Op var = new Integer_Op(e.id.toString(), 0, fun);
-            Assign instr = new Assign(fun, var, ifI);
+            Assign instr = new Assign(fun, var, (If_Inst) visit(e.e1, fun));
             fun.get_local().add(var);
             fun.add_instructionlist(instr);
     }
     else {
             visit(e.e1, fun);
     }
+    
     visit(e.e2, fun);
 }
 
 public Variable visit(Var e, fun fun){
-    String var_name = ((Var)e).id.toString();
 
     for (Variable var : fun.get_local()) {
-            if (var_name == var.get_name()) {
+            if (((Var)e).id.toString() == var.get_name()) {
                     return var;
             }
     }
@@ -246,7 +234,7 @@ public Variable visit(Var e, fun fun){
 }
 
 public Integer visit(Int e, fun fun){
-    Integer_Op i = new Integer_Op(get_temp_varname(), e.i, fun); 
+    Integer_Op i = new Integer_Op(get_tvar(), e.i, fun); 
     Noop instr = new Noop(i);
     fun.add_instructionlist(instr);
     return e.i;
@@ -262,14 +250,14 @@ public void visit(App e, fun fun){
     for (Exp ex : e.es) {
             Object var = (Object) visit(ex, fun);
             if (var instanceof Integer) {
-                    var = new Integer_Op(get_temp_varname(), (Integer)var, fun);
+                    var = new Integer_Op(get_tvar(), (Integer)var, fun);
                     ((Variable)var).assign_register();
                     ((Variable)var).remove();
                     Assign instr = new Assign(fun, var, ((Integer_Op)var).get_val());
                     fun.add_instructionlist(instr);
             }
             else if (var instanceof Boolean) {
-                    var = new Bool_Op(get_temp_varname(), (boolean)var, fun);
+                    var = new Bool_Op(get_tvar(), (boolean)var, fun);
                     ((Variable)var).assign_register();
                     ((Variable)var).remove();
                     Assign instr = new Assign(fun, var, ((Bool_Op)var).get_expression());
@@ -281,10 +269,6 @@ public void visit(App e, fun fun){
     for (Object obj : varlist) {
             if (obj instanceof Variable) {
                     ((Variable)obj).assign_argregister();
-            }
-    }
-    for (Object obj : varlist) {
-            if (obj instanceof Variable) {
                     ((Variable)obj).remove_arg();
             }
     }
@@ -305,65 +289,58 @@ public boolean visit(Not e, fun fun){
 public BoolEq visit(Eq e, fun fun){
     ArrayList<Variable> varlist = new ArrayList<Variable>();
 
-    String var1 = ((Var)e.e1).id.toString();
-    String var2 = ((Var)e.e2).id.toString();
-
     for (Variable var : fun.get_local()) {
-            if (var1 == var.get_name()) {
+            if (((Var)e.e1).id.toString() == var.get_name()) {
                     varlist.add(var);
             }
     }
     if (varlist.size() == 0) {
-            Integer_Op temp1 = new Integer_Op(get_temp_varname(), (Integer)visit(e.e1, fun), fun);
+            Integer_Op temp1 = new Integer_Op(get_tvar(), (Integer)visit(e.e1, fun), fun);
             varlist.add(temp1);
     }
 
     for (Variable var : fun.get_local()) {
-            if (var2 == var.get_name()) {
+            if (((Var)e.e2).id.toString() == var.get_name()) {
                     varlist.add(var);
             }
     }
     if (varlist.size() == 0) {
-            Integer_Op temp2 = new Integer_Op(get_temp_varname(), (Integer)visit(e.e2, fun), fun);
+            Integer_Op temp2 = new Integer_Op(get_tvar(), (Integer)visit(e.e2, fun), fun);
             varlist.add(temp2);
     }
 
-    BoolEq exp = new BoolEq(get_temp_boolexp(), fun, varlist.get(0), varlist.get(1));
+    BoolEq exp = new BoolEq(get_tboolexp(), fun, varlist.get(0), varlist.get(1));
     return exp;
 }
 
 public BoolLe visit(LE e, fun fun){
     ArrayList<Variable> varlist = new ArrayList<Variable>();
 
-    String var1 = ((Var)e.e1).id.toString();
-    String var2 = ((Var)e.e2).id.toString();
-
     for (Variable var : fun.get_local()) {
-            if (var1 == var.get_name()) {
+            if (((Var)e.e1).id.toString() == var.get_name()) {
                     varlist.add(var);
             }
     }
     if (varlist.size() == 0) {
-            Integer_Op temp1 = new Integer_Op(get_temp_varname(), (Integer)visit(e.e1, fun), fun);
+            Integer_Op temp1 = new Integer_Op(get_tvar(), (Integer)visit(e.e1, fun), fun);
             varlist.add(temp1);
     }
 
     for (Variable var : fun.get_local()) {
-            if (var2 == var.get_name()) {
+            if (((Var)e.e2).id.toString() == var.get_name()) {
                     varlist.add(var);
             }
     }
     if (varlist.size() == 0) {
-            Integer_Op temp2 = new Integer_Op(get_temp_varname(), (Integer)visit(e.e2, fun), fun);
+            Integer_Op temp2 = new Integer_Op(get_tvar(), (Integer)visit(e.e2, fun), fun);
             varlist.add(temp2);
     }
-
-    BoolLe exp = new BoolLe(get_temp_boolexp(), fun, varlist.get(0), varlist.get(1));
+    BoolLe exp = new BoolLe(get_tboolexp(), fun, varlist.get(0), varlist.get(1));
     return exp;
 }
 
 public If_Inst visit(If e, fun fun) {
-    Bool_Op cond = new Bool_Op(get_temp_varname(), (BoolExp)visit(e.e1, fun), fun);
+    Bool_Op cond = new Bool_Op(get_tvar(), (BoolExp)visit(e.e1, fun), fun);
     fun branchthen = new fun(get_new_label(), new ArrayList(), new ArrayList<Inst_Interface>(), fun.loc_reg, fun.arg_reg);
     visit(e.e2, branchthen);
     fun branchelse = new fun(get_new_label(), new ArrayList(), new ArrayList<Inst_Interface>(), fun.loc_reg, fun.arg_reg);
@@ -378,9 +355,8 @@ public void visit(LetRec e, fun fun){
     ArrayList<Registers> reglist= new ArrayList<Registers>(9);
     ArrayList<Registers> arg_reglist = new ArrayList<Registers>(2);
     Registers.reg_initialization(reglist, arg_reglist);
-
+//Initializing th function with registers and arguments
     fun func = new fun(e.fd.id.toString(), arglist, new ArrayList<Inst_Interface>(), reglist, arg_reglist);
-
     for (Id id : e.fd.args) {
             Variable arg = new Variable(id.toString(), func);
             arglist.add(arg);
