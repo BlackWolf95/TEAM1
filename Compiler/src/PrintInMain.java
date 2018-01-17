@@ -81,7 +81,7 @@ public class PrintInMain {
               
               fun func = new fun("main", new ArrayList(), new ArrayList(), reg, argreg);
               DataStrucConversion data = new DataStrucConversion();
-              data.visit(expressK, func);
+              data.visit(expressR, func);
               
               Alloc alloc = new Alloc();
               alloc.allocation(func);
@@ -104,6 +104,58 @@ public class PrintInMain {
 
 		      height = expression.accept(v);
 		      System.out.println("using HeightVisitor: " + height);
+
+		    } catch (Exception e) {
+		      e.printStackTrace();
+		    }
+	}
+	
+	public static void PrintARM(String path)
+	{
+		try {
+		      Parser p = new Parser(new Lexer(new FileReader(path)));
+		      Exp expression = (Exp) p.parse().value;      
+		      assert (expression != null);
+		     
+
+		      Exp expressK = expression.accept(new KNor());
+
+		      Exp expressA = expressK.accept(new Alpha_con());
+
+			  Exp expressR = expressA.accept(new Reduction_N() );
+
+
+//			  System.out.println("------ Closure ----"); 
+//			  Exp expressC = expressA.accept(new Closure_Con() );
+//			  expressC.accept(new PrintVisitor());
+//			  System.out.println();
+			 
+			  try {
+
+              ArrayList<Registers> reg = new ArrayList<Registers>(9);
+              ArrayList<Registers> argreg= new ArrayList<Registers>(2);
+              Registers.reg_initialization(reg, argreg);
+              
+              fun func = new fun("main", new ArrayList(), new ArrayList(), reg, argreg);
+              DataStrucConversion data = new DataStrucConversion();
+              data.visit(expressR, func);
+              
+              Alloc alloc = new Alloc();
+              alloc.allocation(func);
+              
+              List<fun> funlist = new ArrayList<fun>();
+              funlist.add(func);
+              ARMgenerator arm = new ARMgenerator();
+              arm.armgen(funlist);
+              StringBuffer result= arm.textBuffer;
+  	          System.out.println(result);
+			  
+			  }
+			  catch (Exception e)
+			  {
+				  System.out.println("\nThis type of features in ARM gen are not supported yet\n");
+			  }
+				  
 
 		    } catch (Exception e) {
 		      e.printStackTrace();

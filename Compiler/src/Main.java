@@ -51,6 +51,16 @@ public class Main {
 			  case "-t":
 				  System.out.println("NotYetImplemented");
 				  break;
+				  
+			  case "-arm":
+				  File f2 = new File(argv[1]);
+				  if(f2.exists()) {
+					  PrintInMain.PrintARM(argv[1]);
+				  }
+				  else {
+					  System.out.println("Wrong file path");
+				  }				  
+				  break;
 			  
 			  case "-asml":
 				  File f1 = new File(argv[1]);
@@ -81,7 +91,7 @@ public class Main {
 				  try 
 				  {
 		             PrintStream out = new PrintStream(new FileOutputStream(output));
-		             System.out.println("\nNotYetImplemented");
+		            
 		            // out.println("NotYetImplemented");
 		             PrintInMain.PrintFileASMl(output);
 		          } 
