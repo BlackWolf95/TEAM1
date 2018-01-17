@@ -35,6 +35,8 @@
 
 3. Organization of the archive
 
+	Javadoc can be found in Compiler/doc
+
 ARM/     arm source example and compilation with libmincaml   
 asml/    asml examples
 doc/     all the documentation, start with index.hml
