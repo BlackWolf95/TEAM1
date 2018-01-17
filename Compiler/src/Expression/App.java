@@ -1,9 +1,7 @@
 package Expression;
-
-import java.util.List;
-
 import Visiteur.ObjVisitor;
 import Visiteur.Visitor;
+import java.util.*;
 
 public class App extends Exp {
     public final Exp e;
@@ -20,4 +18,5 @@ public class App extends Exp {
     public void accept(Visitor v) {
         v.visit(this);
     }
+
 }

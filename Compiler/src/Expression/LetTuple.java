@@ -1,7 +1,6 @@
 package Expression;
 
 import java.util.List;
-
 import Tool.Id;
 import Types.Type;
 import Visiteur.ObjVisitor;

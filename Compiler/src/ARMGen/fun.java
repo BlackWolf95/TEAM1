@@ -14,6 +14,7 @@ public class fun {
 	public List<Inst_Interface> instruc;
 	public Integer offset = 4;
 	public Integer arg_offset = 4;
+	
 //Constructor with function name,arguments,instructions,registers	
 	public fun(String name, List<Variable> arg, List<Inst_Interface> instruc, ArrayList<Registers> loc_reg, ArrayList<Registers> arg_reg){
 		

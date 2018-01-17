@@ -1,3 +1,5 @@
 package Types;
 
-public class TUnit extends Type { }
+public class TUnit extends Type {
+
+}

@@ -55,57 +55,69 @@ public class DataStrucConversion {
 }
 
 	public Object visit(Exp e, fun fun) {
+//If expression is of type Add then return an instruction of type Add		
         if (e instanceof Add) {
                 return (Integer_Add)visit((Add)e, fun);
         }
+//If expression is of type Sub then return an instruction of type Sub
         else if (e instanceof Sub) {
                 return (Integer_Sub) visit((Sub)e, fun);
         }
+//If expression is of type Let       
         else if (e instanceof Let) {
                 visit((Let)e, fun);
         }
+//If expression is of type LetRec        
         else if (e instanceof LetRec) {
                 visit((LetRec)e, fun);
         }
+//If expression is of type Int return the integer value       
         else if (e instanceof Int) {
                 return (Integer) visit((Int)e, fun);
         }
+//If expression is of type Bool return Boolean value        
         else if (e instanceof Bool) {
                 return (boolean) visit((Bool)e, fun);
         }
+//If expression is of type Not return boolean value        
         else if (e instanceof Not) {
                 return (boolean) visit((Bool)e, fun);
         }
+//If expression is of type VAr return a variable        
         else if (e instanceof Var) {
                 return (Variable) visit((Var)e, fun);
         }
+//If expression is of type App        
         else if (e instanceof App) {
                 visit((App)e, fun);
         }
+//If expression is of type Neg return Integer        
         else if (e instanceof Neg) {
                 return (Integer) visit((Neg)e, fun);
         }
+//If expression is of type If return If instruction        
         else if (e instanceof If) {
                 return (If_Inst) visit((If)e, fun);
         }
         return null;
 }
+	 
 	public Integer_Add visit(Add e, fun fun) {
         ArrayList<Variable> varlist = new ArrayList<Variable>();
-        String var1 = ((Var)e.e1).id.toString();
-        String var2 = ((Var)e.e2).id.toString();
-        for (Variable v : fun.get_local()){
+        String var1 = ((Var)e.e1).id.id;             //get the variables of add
+        String var2 = ((Var)e.e2).id.id;
+        for (Variable v : fun.get_local()){         //get the variables of the function
                 if (var1 == v.get_name()) {
-                        varlist.add(v);
+                        varlist.add(v);            //add them to the varlist if they match
                 }
         }
-        if (varlist.size() == 0) {
-                Integer_Op temp1 = new Integer_Op(get_temp_varname(), (Integer)visit(e.e1, fun), fun);
-                varlist.add(temp1);
+        if (varlist.size() == 0) {                 //if varlist is empty then get integer variables
+                Integer_Op temp1 = new Integer_Op(get_temp_varname(), (Integer) visit(e.e1, fun), fun);        	
+                varlist.add(temp1);      //add them to the list
         }
 
         for (Variable v : fun.get_local()) {
-                if (var2 == v.get_name()) {
+                if (var2 == v.get_name()) {         //add to the list if they are same
                         varlist.add(v);
                 }
         }
@@ -117,8 +129,8 @@ public class DataStrucConversion {
 
         try {
                 Integer_Add instr = new Integer_Add(fun, varlist.get(0), varlist.get(1));
-                fun.add_instructionlist(instr);
-                return instr;
+                fun.add_instructionlist(instr);    //add the created Add instruction to the list
+                return instr;                      
         } catch (IndexOutOfBoundsException exception) {
                 Integer_Op temp1 = new Integer_Op(get_temp_varname(), (Integer)visit(e.e1, fun), fun);
                 Integer_Op temp2 = new Integer_Op(get_temp_varname(), (Integer)visit(e.e2, fun), fun);
@@ -172,7 +184,7 @@ public Integer_Sub visit(Sub e, fun fun){
 }
 
 public void visit(Let e, fun fun) {
-    if (e.e1 instanceof Int) {
+    if (e.e1 instanceof Int) {                           
             Integer val = (Integer) visit(e.e1, fun);
             Integer_Op var = new Integer_Op(e.id.toString(), val, fun);
             Assign instr = new Assign(fun, var, val);

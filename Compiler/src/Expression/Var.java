@@ -1,11 +1,10 @@
 package Expression;
-
 import Tool.Id;
 import Visiteur.ObjVisitor;
 import Visiteur.Visitor;
 
 public class Var extends Exp {
-    public Id id;
+    public  Id id;
 
     public Var(Id id) {
         this.id = id;

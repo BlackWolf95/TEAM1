@@ -1,7 +1,9 @@
 package Expression;
+import java.util.*;
+import Visiteur.*;
+import Types.*;
+import Tool.Id;
 
-import Visiteur.ObjVisitor;
-import Visiteur.Visitor;
 
 public class Add extends Exp {
     public final Exp e1;
@@ -18,4 +20,5 @@ public class Add extends Exp {
     public void accept(Visitor v) {
         v.visit(this);
     }
+
 }

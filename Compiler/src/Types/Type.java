@@ -5,5 +5,4 @@ public abstract class Type {
     public static Type gen() {
         return new TVar("?" + x++);
     }
-    
 }

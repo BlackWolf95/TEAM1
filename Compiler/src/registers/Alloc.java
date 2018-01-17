@@ -1,13 +1,9 @@
 package registers;
-import java.util.*;
+
 import ARMGen.fun;
 //import Instructions.Arguments;
 import Instructions.Variable;
 public class Alloc {
-	//public static ArrayList<Registers> reg = new ArrayList<Registers>(9);
-	//public static ArrayList<Registers> arg_reg = new ArrayList<Registers>(4);
-
-
 	public static void allocation(fun fun) {
 	        for (Variable var : fun.get_local()) {
 

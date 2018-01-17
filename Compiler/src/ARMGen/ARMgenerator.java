@@ -68,7 +68,7 @@ public class ARMgenerator {
                 	  
                   }
                   else{
-                       System.out.println("Instruction is not supported\n");
+                       System.out.println("Instruction not valid\n");
                   }
                }
 
@@ -87,7 +87,7 @@ public class ARMgenerator {
     public void gen_blabel(String fun_name) {                              //for branch
     	textBuffer.append(fun_name).append(":\n");
     }
-    
+ //for conditions counter   
     public String gen_tlabel() {
     	counter++;
     	return "cont" + String.valueOf(counter);   
@@ -139,7 +139,6 @@ public class ARMgenerator {
     		textBuffer.append("\tMOV sp, fp\n");
     		textBuffer.append("\tLDR fp, [sp]\n");
     		textBuffer.append("\tADD sp, #4\n\n");
-    		// output terminal (not sure)
     		textBuffer.append("\tMOV r7, #1\n");
     		textBuffer.append("\tswi 0\n");
 
@@ -169,34 +168,32 @@ public class ARMgenerator {
 	   Object operand2 = instruction.operandlist.get(1);
 	   String dest = "r0"; 
 	   String place1="", place2="";
-	   
+//operand1 is an integer variable	   
 	   if(operand1 instanceof Integer_Op) {
-		   //String vn = ((Integer_Op) operand1).var_name;
-		   //Registers reg_tmp = ((Integer_Op)operand1).get_register();
-		   if(((Integer_Op)operand1).get_register()!= null) {
+		   if(((Integer_Op)operand1).get_register()!= null) {   //has a register assigned
 			   place1 = ((Integer_Op)operand1).get_register().GetRegName();
 		   }
-		   else {
+		   else {        //operand1 is on stack
 			   place1="[fp, #" + ((Integer_Op)operand1).get_offset().toString() +"]";
                textBuffer.append("\tLDR r0 , "). append(place1).append("\n");
                place1="r0";
 		   }		   
 	   }
-	   else if(operand1 instanceof Arguments) {
-		   if(((Arguments)operand1).get_register()!=null){
+	   else if(operand1 instanceof Arguments) {       //operand1 is an argument
+		   if(((Arguments)operand1).get_register()!=null){   //operand1 has a register assigned
                place1=((Arguments)operand1).get_register().GetRegName();
              }
-             else{
+             else{                                         //operand1 is on stack
                place1="[fp, #" + ((Arguments)operand1).get_offset().toString() +"]";
                textBuffer.append("\tLDR r0 , "). append(place1).append("\n");
                place1="r0";
              }		   
 	   }
-	   if(operand2 instanceof Integer_Op){
-           if(((Integer_Op)operand2).get_register()!=null){
+	   if(operand2 instanceof Integer_Op){             //operand2 is an integer variable
+           if(((Integer_Op)operand2).get_register()!=null){           //has a register assigned
              place2=((Integer_Op)operand2).get_register().GetRegName();
            }
-           else{
+           else{                                                         //operand2 is on stack
              place2="[fp ,#" + ((Integer_Op)operand2).get_offset().toString() +"]";
              textBuffer.append("\tLDR r1 , "). append(place2).append("\n");
              place2="r1";
@@ -204,35 +201,33 @@ public class ARMgenerator {
            }
      }
 
-     else if(operand2 instanceof Arguments){
-       if(((Arguments)operand2).get_register()!=null){
+     else if(operand2 instanceof Arguments){                  //operand2 is an argument
+       if(((Arguments)operand2).get_register()!=null){           //has a register assigned
          place2=((Arguments)operand2).get_register().GetRegName();
        }
        else{
-
-         place2="[fp, #" + ((Arguments)operand1).get_offset().toString()+"]";  //not sure,check for other operation as well
+         //operand2 is on stack
+         place2="[fp, #" + ((Arguments)operand2).get_offset().toString()+"]";  
          textBuffer.append("\tLDR r0 , "). append(place2).append("\n");
          place2="r0";
        }
      }
 	   
-	 if(operand1 instanceof Integer && operand2 instanceof Variable){
+	 if(operand1 instanceof Integer && operand2 instanceof Variable){  
 
-           arith_op("ADD",dest ,(int)operand1, place2);
+           Operation_Code("ADD",dest ,(int)operand1, place2);
      }
 
-
-
      else if(operand1 instanceof Variable && operand2 instanceof Variable){
-           arith_op("ADD",dest ,place1, place2);
+           Operation_Code("ADD",dest ,place1, place2);
      }
      else if(operand1 instanceof Integer && operand2 instanceof Integer){
 
-         arith_op("ADD",dest ,(int)operand1, (int)operand2);
+         Operation_Code("ADD",dest ,(int)operand1, (int)operand2);
      }
      else if(operand1 instanceof Variable && operand2 instanceof Integer){
 
-       arith_op("ADD",dest ,place1, (int)operand2);
+       Operation_Code("ADD",dest ,place1, (int)operand2);
 
      }  
    }
@@ -242,32 +237,32 @@ public class ARMgenerator {
 	   Object operand2 = instruction.operandlist.get(1);
 	   String dest = "r0"; 
 	   String place1="", place2="";
-	   
+//operand1 is an integer variable	   
 	   if(operand1 instanceof Integer_Op) {
-		   if(((Integer_Op)operand1).get_register()!= null) {
+		   if(((Integer_Op)operand1).get_register()!= null) {  //has a register assigned
 			   place1 = ((Integer_Op)operand1).get_register().GetRegName();
 		   }
-		   else {
+		   else {   //operand1 is on stack
 			   place1="[fp, #" + ((Integer_Op)operand1).get_offset().toString()  +"]";
                textBuffer.append("\tLDR r0 , "). append(place1).append("\n");
                place1="r0";
 		   }		   
 	   }
-	   else if(operand1 instanceof Arguments) {
-		   if(((Arguments)operand1).get_register()!=null){
+	   else if(operand1 instanceof Arguments) {   //operand1 is an argument
+		   if(((Arguments)operand1).get_register()!=null){     //has a register assigned
                place1=((Arguments)operand1).get_register().GetRegName();
              }
-             else{
+             else{              //operand1 is on stack
                place1="[fp, #" + ((Arguments)operand1).get_offset().toString() +"]";
                textBuffer.append("\tLDR r0 , "). append(place1).append("\n");
                place1="r0";
              }		   
 	   }
-	   if(operand2 instanceof Integer_Op){
-           if(((Integer_Op)operand2).get_register()!=null){
+	   if(operand2 instanceof Integer_Op){       //operand1 is an integer variable
+           if(((Integer_Op)operand2).get_register()!=null){      //has a register assigned
              place2=((Integer_Op)operand2).get_register().GetRegName();
            }
-           else{
+           else{ //operand2 is on stack
              place2="[fp ,#" + ((Integer_Op)operand2).get_offset().toString() +"]";
              textBuffer.append("\tLDR r1 , "). append(place2).append("\n");
              place2="r1";
@@ -275,13 +270,13 @@ public class ARMgenerator {
            }
      }
 
-     else if(operand2 instanceof Arguments){
-       if(((Arguments)operand2).get_register()!=null){
+     else if(operand2 instanceof Arguments){        //operand2 is an argument
+       if(((Arguments)operand2).get_register()!=null){      //has a register assigned
          place2=((Arguments)operand2).get_register().GetRegName();
        }
        else{
-
-         place2="[fp, #" + ((Arguments)operand1).get_offset().toString() +"]";  //not sure
+         //operand2 is on stack
+         place2="[fp, #" + ((Arguments)operand2).get_offset().toString() +"]";  //not sure
          textBuffer.append("\tLDR r0 , "). append(place2).append("\n");
          place2="r0";
        }
@@ -289,19 +284,19 @@ public class ARMgenerator {
 	   
 	 if(operand1 instanceof Integer && operand2 instanceof Variable){
 
-           arith_op("SUB",dest ,(int)operand1, place2);
+           Operation_Code("SUB",dest ,(int)operand1, place2);
      }
 
      else if(operand1 instanceof Variable && operand2 instanceof Variable){
-           arith_op("SUB",dest ,place1, place2);
+           Operation_Code("SUB",dest ,place1, place2);
      }
      else if(operand1 instanceof Integer && operand2 instanceof Integer){
 
-           arith_op("SUB",dest ,(int)operand1, (int)operand2);
+           Operation_Code("SUB",dest ,(int)operand1, (int)operand2);
      }
      else if(operand1 instanceof Variable && operand2 instanceof Integer){
 
-           arith_op("SUB",dest ,place1, (int)operand2);
+           Operation_Code("SUB",dest ,place1, (int)operand2);
  
      }  
    }
@@ -358,42 +353,42 @@ public class ARMgenerator {
 	   
 	 if(operand1 instanceof Integer && operand2 instanceof Variable){
 
-           arith_op("MUL",dest ,(int)operand1, place2);
+           Operation_Code("MUL",dest ,(int)operand1, place2);
      }
 
      else if(operand1 instanceof Variable && operand2 instanceof Variable){
-           arith_op("MUL",dest ,place1, place2);
+           Operation_Code("MUL",dest ,place1, place2);
      }
      else if(operand1 instanceof Integer && operand2 instanceof Integer){
 
-           arith_op("MUL",dest ,(int)operand1, (int)operand2);
+           Operation_Code("MUL",dest ,(int)operand1, (int)operand2);
      }
      else if(operand1 instanceof Variable && operand2 instanceof Integer){
 
-           arith_op("MUL",dest ,place1, (int)operand2);
+           Operation_Code("MUL",dest ,place1, (int)operand2);
 
      }  
    }
    
 //Code generation for arithmetic operations where operand1 is a register and operand2 is a register
-   public void arith_op(String operation, String dest, String place1, String place2){
+   public void Operation_Code(String operation, String dest, String place1, String place2){
 
         textBuffer.append("\t").append(operation).append(" ").append(dest).append(", ")
                         .append(place1).append(", ").append(place2).append("\n");
    }
  //Code generation for arithmetic operations where operand1 is a register and operand2 is an integer
-   public void arith_op(String operation, String dest, String place1, int operand2){
+   public void Operation_Code(String operation, String dest, String place1, int operand2){
 
         textBuffer.append("\t").append(operation).append(" ").append(dest).append(", ")
                         .append(place1).append(", #").append(operand2).append("\n");
    }
  //Code generation for arithmetic operations where operand1 is an integer val and operand2 is a register
-   public void arith_op(String operation, String dest, int operand1, String place2){
+   public void Operation_Code(String operation, String dest, int operand1, String place2){
         textBuffer.append("\t").append(operation).append(" ").append(dest).append(", #")
                         .append(operand1).append(", ").append(place2).append("\n");
    }
  //Code generation for arithmetic operations where operand1 is an int value and operand2 is an int value
-   public void arith_op(String operation, String dest, int operand1, int operand2){
+   public void Operation_Code(String operation, String dest, int operand1, int operand2){
 
         textBuffer.append("\t").append(operation).append(" ").append(dest).append(", #")
                         .append(operand1).append(", #").append(operand2).append("\n");
@@ -645,7 +640,7 @@ public class ARMgenerator {
         	       gen_noopcode((Noop) instruction);
            }
            else{
-                   System.out.println("Instruction Not Supported\n");
+                   System.out.println("Instruction not valid\n");
            }
    }
 
@@ -665,13 +660,8 @@ public class ARMgenerator {
 	   fun branchthen = instr.fun_then;
 	   fun branchelse = instr.fun_else;
 	   branchthen.print_variable_status();
-
        BoolExp exp = instr.cond.get_expression();
-	   System.out.println(instr.cond);
-	   System.out.println(exp);
-
-	   String place1="", place2 = "";
-	   //String offset1 = "";                
+	   String place1="", place2 = "";              
 
 	      if(exp instanceof BoolEq){
 	         Variable operand1 = (Variable)(((BoolEq)exp).operandlist.get(0));
@@ -698,7 +688,7 @@ public class ARMgenerator {
 	        }
 
 
-	        // if the operand is an argument in memory
+	        // if the operand is an argument in stack
 	        else if(((Variable)operand1).get_register()==null && ((Variable)operand1).get_argoffset()!=null && ((Variable)operand1).get_offset()==null ) {
 
 	                place1="[fp ,#" + ((Variable)operand2).get_argoffset().toString() +"]";
@@ -709,7 +699,7 @@ public class ARMgenerator {
 	        if(((Variable)operand2).get_register()!=null &&   ((Variable)operand2).get_argregister()==null && ((Variable)operand2).get_argoffset()==null) {
 	            place2=((Variable)operand2).get_register().GetRegName();
 	        }
-	        // it operand2 is a local variable in memory
+	        // it operand2 is a local variable in stack
 	        else if(((Variable)operand2).get_register()==null && ((Variable)operand2).get_offset()==null && ((Variable)operand2).get_argregister()==null) {
 
 	            place2="[fp ,#-" + ((Variable)operand2).get_offset().toString() +"]";
@@ -733,8 +723,7 @@ public class ARMgenerator {
 	            place2="r1";
 	        }
 
-
-	        textBuffer.append("\tCMP ").append(place1).append(" , "). append(place2).append("\n");
+            textBuffer.append("\tCMP ").append(place1).append(" , "). append(place2).append("\n");
 	        textBuffer.append("\tBEQ ").append(instr.fun_then.get_name());
 	        textBuffer.append("\tBA ").append(instr.fun_else.get_name());
 	      }
@@ -800,7 +789,6 @@ public class ARMgenerator {
 	            place2="r1";
 	        }
 
-
 	        textBuffer.append("\tCMP ").append(place1).append(" , "). append(place2).append("\n");
 	        textBuffer.append("\tBLE ").append(instr.fun_then.get_name());
 	        textBuffer.append("\tBA ").append(instr.fun_else.get_name());
@@ -809,11 +797,7 @@ public class ARMgenerator {
 	      }
 
 	      else if (exp instanceof True){
-
 	        textBuffer.append("\tBA ").append(instr.fun_then.get_name());
-
-
-
 	      }
 
 	      else if(exp instanceof False){
@@ -821,17 +805,10 @@ public class ARMgenerator {
 	      }
 	      else{
 
-	          System.out.println(" ????");  
 	      }
 
-	      String ret_label = gen_tlabel();
-
-
-	      gen_branchcode(branchthen, ret_label);  //code for then
-
-
-	      gen_branchcode(branchelse, ret_label);  //code for else
-
-	      return ret_label;
+	      gen_branchcode(branchthen, gen_tlabel());  //code for then
+          gen_branchcode(branchelse, gen_tlabel());  //code for else
+	      return gen_tlabel();
    }
 }

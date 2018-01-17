@@ -1,9 +1,8 @@
 package Expression;
-
 import Tool.Id;
-import Types.Type;
-import Visiteur.ObjVisitor;
+import Types.*;
 import Visiteur.Visitor;
+import Visiteur.ObjVisitor;
 
 public class Let extends Exp {
     public Id id;
