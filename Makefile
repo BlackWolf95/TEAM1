@@ -1,11 +1,11 @@
 all:
 	ant -buildfile Compiler/build.xml build
 
-test_syntax:
-	./scripts/test_syntax.sh
+test:
 
-test_parser:
-	./scripts/mincaml-test-parser.sh
+	./scripts/ml_arm.sh
+	./scripts/output1.sh
+	./scripts/compare.sh
 
 clean :
 	ant -buildfile Compiler/build.xml clean
