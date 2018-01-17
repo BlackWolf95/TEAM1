@@ -18,7 +18,7 @@ for file in tests/syntax/invalid/*.ml
 do
         echo "testing parser on: (basename $file)"
         $MINCAMLC -p $file 2> /dev/null 1> /dev/null
-        ifif [ $? -ne 0 ]; then
+        if [ $? -ne 0 ]; then
                 echo 1
         else
                 echo 0
