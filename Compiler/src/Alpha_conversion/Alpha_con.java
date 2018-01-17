@@ -187,7 +187,7 @@ public class Alpha_con implements ObjVisitor<Exp> {
 			String x=hm.get(e.id.toString());
 			e=new Var(new Id(x));
 		}
-		//System.out.println(e.id);
+		System.out.println(e.id);
 		return e;
 	}
 
@@ -275,7 +275,7 @@ public class Alpha_con implements ObjVisitor<Exp> {
 		
 //			List<Id> newListId=new ArrayList<>();
         	for(int i=0;i<e.ids.size();i++){
-        	//	System.out.println(e.ids.get(i));
+        		System.out.println(e.ids.get(i));
         	if(hm.get(e.ids.get(i).toString())!=null){
 			newListId.add(Id.gen());
 			hm.put(e.ids.get(i).toString(), newListId.get(i).toString());
